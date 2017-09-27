@@ -14,14 +14,13 @@ h1#app-name{
 div#content-area {
     width: 700px;
     height: 1000px;
-    margin: auto;
+    margin: auto;    
 }
 
 #login-input-area {
     position: relative;
     width: 100%;
     height: 900px;
-/*    background-color: antiquewhite;*/
 }
 
 #login-form {
@@ -29,6 +28,7 @@ div#content-area {
     float: left;
     width: 50%;
     height: 100%;
+    margin-top: 16px;
 }
 
 #login-form .input-item {
@@ -36,7 +36,6 @@ div#content-area {
     width: 250px;
     height: 30px;
     border-radius: 10px;
-    left: 0;
     margin: 10px auto;
     
 }
@@ -70,23 +69,30 @@ div#content-area {
     width: 50%;
     height: 100%;
     text-align: center;
-/*    background-color: brown;*/
+    
+}
+
+#oauth2-login ul {
+    padding-left: 0;
 }
 
 #oauth2-login p {
     color: #555;
+    margin: 0;
 }
 
 #oauth2-login li {
     list-style: none;
+    
 }
 
 #oauth2-login button {
+    display: block;
     border: none;
     outline: none;
     width: 250px;
     height: 30px;
-    margin: 10px;
+    margin: 10px auto;
     
 }
 
@@ -116,4 +122,28 @@ div#content-area {
 #oauth2-login #line-button {
     background-color: lawngreen;
     color: white;
+}
+
+@media screen and (max-width : 700px) {
+    
+    div#content-area {
+        width: 400px;
+    }
+    
+    #login-form {
+        position: relative;
+        float: clear;
+        width: 100%;
+        height: 200px;
+    }
+
+    #oauth2-login {
+        position: relative;
+        float: clear;
+        width: 100%;
+        height: 250px;
+        text-align: center;
+    }
+    
+
 }
