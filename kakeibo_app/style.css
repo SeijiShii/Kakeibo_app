@@ -1,0 +1,119 @@
+body {
+    background-image: url(./images/kakeibo_background.png);
+}
+
+h1#app-name{
+    text-indent: -9999px;
+    background: url(./images/kakeibo_app_name.png) no-repeat center top;
+    -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.3) 3px 3px 6px); 
+    height: 100px;
+    width: 300px;
+    margin: 10px auto;
+}
+
+div#content-area {
+    width: 700px;
+    height: 1000px;
+    margin: auto;
+}
+
+#login-input-area {
+    position: relative;
+    width: 100%;
+    height: 900px;
+/*    background-color: antiquewhite;*/
+}
+
+#login-form {
+    position: relative;
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+
+#login-form .input-item {
+    display: block;
+    width: 250px;
+    height: 30px;
+    border-radius: 10px;
+    left: 0;
+    margin: 10px auto;
+    
+}
+
+#login-form .text-input {
+    border: solid 1px darkgray;
+    text-indent: 20px;
+}
+
+#login-form button {
+    border: none;
+    color: #fff;
+    background-color: #ff5555;
+    outline: none;
+}
+
+#login-form button:hover {
+    opacity: 0.8;
+} 
+
+#login-form button:active {
+    opacity: 0.5;
+    position: relative;
+    top: 1px;
+    left: 1px;
+} 
+
+#oauth2-login {
+    position: relative;
+    float: right;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+/*    background-color: brown;*/
+}
+
+#oauth2-login p {
+    color: #555;
+}
+
+#oauth2-login li {
+    list-style: none;
+}
+
+#oauth2-login button {
+    border: none;
+    outline: none;
+    width: 250px;
+    height: 30px;
+    margin: 10px;
+    
+}
+
+#oauth2-login #facebook-button {
+    background-color: #3B5998;
+    color: white;
+    font-size: 15px;
+}
+
+.oauth2-logo {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+}
+
+#oauth2-login #google-button {
+    background-color: white;
+    color: darkgray;
+}
+
+#oauth2-login #twitter-button {
+    background-color: deepskyblue;
+    color: white;
+}
+
+#oauth2-login #line-button {
+    background-color: lawngreen;
+    color: white;
+}
