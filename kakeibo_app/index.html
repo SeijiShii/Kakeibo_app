@@ -10,13 +10,13 @@
         <div id="content-area">
             <h1 id="app-name">家計簿アプリ</h1>
             <div id="login-input-area">
-                <div id="login-form">
+                <form id="login-form">
                     <input type="text" name="user-id" size="40" class="text-input input-item" placeholder="ユーザ名">
                     <input type="password" name="password" size="40" class="text-input input-item" placeholder="パスワード">
                     <button type="submit" name="action" value="login" class="input-item">ログイン</button>
                     <button type="submit" name="action" value="create-account" class="input-item">家計簿新規作成</button>
-                </div>
-                <div id="oauth2-login">
+                </form>
+                <form id="oauth2-login">
                     <p>以下でもログインできます。</p>
                     <ul>
                         <li><button id="facebook-button"><img class="oauth2-logo" src="images/facebook.png"></button></li>
@@ -24,7 +24,7 @@
                         <li><button id="twitter-button"><img class="oauth2-logo" src="images/twitter.png"></button></li>
                         <li><button id="line-button"><img class="oauth2-logo" src="images/line.png"></button></li>
                     </ul>
-                </div>
+                </form>
             </div>
         </div>
     </body>
