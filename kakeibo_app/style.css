@@ -2,7 +2,7 @@ body {
     background-image: url(./images/kakeibo_background.png);
 }
 
-h1.app-name{
+h1.app_name{
     text-indent: -9999px;
     background: url(./images/kakeibo_app_name.png) no-repeat center top;
     -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.3) 3px 3px 6px);
@@ -11,22 +11,22 @@ h1.app-name{
     margin: 10px auto;
 }
 
-.content-area {
+.content_area {
     width: 700px;
     height: 1000px;
     margin: auto;
 }
 
-.content-area
-.login-input-area {
+.content_area
+.login_input_area {
     position: relative;
     width: 100%;
     height: 900px;
 }
 
-.content-area
-.login-input-area
-#login-form {
+.content_area
+.login_input_area
+#login_form {
     position: relative;
     float: left;
     width: 50%;
@@ -34,10 +34,10 @@ h1.app-name{
     margin-top: 16px;
 }
 
-.content-area
-.login-input-area
-#login-form
-.input-item {
+.content_area
+.login_input_area
+#login_form
+.input_item {
     display: block;
     width: 250px;
     height: 30px;
@@ -46,17 +46,17 @@ h1.app-name{
 
 }
 
-.content-area
-.login-input-area
-#login-form
-.text-input {
+.content_area
+.login_input_area
+#login_form
+.text_input {
     border: solid 1px darkgray;
     text-indent: 20px;
 }
 
-.content-area
-.login-input-area
-#login-form
+.content_area
+.login_input_area
+#login_form
 button {
     border: none;
     color: #fff;
@@ -64,16 +64,16 @@ button {
     outline: none;
 }
 
-.content-area
-.login-input-area
-#login-form
+.content_area
+.login_input_area
+#login_form
 button:hover {
     opacity: 0.8;
 }
 
-.content-area
-.login-input-area
-#login-form
+.content_area
+.login_input_area
+#login_form
 button:active {
     opacity: 0.5;
     position: relative;
@@ -81,9 +81,9 @@ button:active {
     left: 1px;
 }
 
-.content-area
-.login-input-area
-#oauth2-login {
+.content_area
+.login_input_area
+#oauth2_login {
     position: relative;
     float: right;
     width: 50%;
@@ -92,31 +92,31 @@ button:active {
 
 }
 
-.content-area
-.login-input-area
-#oauth2-login ul {
+.content_area
+.login_input_area
+#oauth2_login ul {
     padding-left: 0;
 }
 
-.content-area
-.login-input-area
-#oauth2-login
+.content_area
+.login_input_area
+#oauth2_login
 p {
     color: #555;
     margin: 0;
 }
 
-.content-area
-.login-input-area
-#oauth2-login
+.content_area
+.login_input_area
+#oauth2_login
 li {
     list-style: none;
 
 }
 
-.content-area
-.login-input-area
-#oauth2-login
+.content_area
+.login_input_area
+#oauth2_login
 button {
     display: block;
     border: none;
@@ -127,16 +127,16 @@ button {
 
 }
 
-.content-area
-.login-input-area
-#oauth2-login
+.content_area
+.login_input_area
+#oauth2_login
 button:hover {
     opacity: 0.8;
 }
 
-.content-area
-.login-input-area
-#oauth2-login
+.content_area
+.login_input_area
+#oauth2_login
 button:active {
     opacity: 0.5;
     position: relative;
@@ -144,64 +144,64 @@ button:active {
     left: 1px;
 }
 
-.content-area
-.login-input-area
-#oauth2-login
-#facebook-button {
+.content_area
+.login_input_area
+#oauth2_login
+#facebook_button {
     background-color: #3B5998;
     color: white;
     font-size: 15px;
 }
 
-.content-area
-.login-input-area
-.oauth2-logo {
+.content_area
+.login_input_area
+.oauth2_logo {
     display: block;
     width: 20px;
     height: 20px;
     margin: auto;
 }
 
-.content-area
-.login-input-area
-#oauth2-login
-#google-button {
+.content_area
+.login_input_area
+#oauth2_login
+#google_button {
     background-color: white;
     color: darkgray;
 }
 
-.content-area
-.login-input-area
-#oauth2-login
-#twitter-button {
+.content_area
+.login_input_area
+#oauth2_login
+#twitter_button {
     background-color: deepskyblue;
     color: white;
 }
 
-.content-area
-.login-input-area
-#oauth2-login
-#line-button {
+.content_area
+.login_input_area
+#oauth2_login
+#line_button {
     background-color: lawngreen;
     color: white;
 }
 
 @media screen and (max-width : 700px) {
 
-    .content-area {
+    .content_area {
         width: 400px;
     }
 
-    .content-area
-    #login-form {
+    .content_area
+    #login_form {
         position: relative;
         float: clear;
         width: 100%;
         height: 200px;
     }
 
-    .content-area
-    #oauth2-login {
+    .content_area
+    #oauth2_login {
         position: relative;
         float: clear;
         width: 100%;

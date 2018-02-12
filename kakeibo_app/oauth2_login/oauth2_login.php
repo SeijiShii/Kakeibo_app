@@ -1,18 +1,18 @@
 <?php
     switch ($_POST['action']) {
-      case 'fasebook-login':
+      case 'fasebook_login':
         echo "Facebook Login!";
         break;
 
-      case 'google-login':
+      case 'google_login':
         echo "Google Login!";
         break;
 
-      case 'twitter-login':
+      case 'twitter_login':
         echo "Twitter Login!";
         break;
 
-      case 'line-login':
+      case 'line_login':
         echo "LINE Login!";
         break;
 
