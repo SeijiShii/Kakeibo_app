@@ -1,4 +1,6 @@
 <?php
+    include '../db/db_connect.php';
+
     if ($_POST['action'] == 'login') {
         echo 'Login!<br>';
         echo $_POST['user_id'];
