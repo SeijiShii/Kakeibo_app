@@ -56,8 +56,8 @@ if (!empty($_POST)) {
                     <?php endif; ?>
                     <!-- <p id="waring_wrong_password" class="input_warning">パスワードが一致しません。</p> -->
                     <input type="password" name="password" size="40" class="text_input input_item" placeholder="パスワード" value="<?php echo htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8'); ?>">
-                    <button type="submit" name="action" value="login" class="input_item">ログイン</button>
-                    <button type="submit" name="action" value="create_account" class="input_item">家計簿新規作成</button>
+                    <button type="submit" name="action" value="login" class="app_ui_button input_item">ログイン</button>
+                    <button type="submit" name="action" value="create_account" class="app_ui_button input_item">家計簿新規作成</button>
                 </form>
                 <form id="oauth2_login" action="" enctype="multipart/form-data method="post">
                     <p>以下でもログインできます。</p>
