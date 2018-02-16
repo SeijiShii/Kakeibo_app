@@ -1,33 +1,34 @@
-<!--
-// include('./common/ChromePhp.php');
-// ChromePhp::log('hoge');
-// echo 'hoge';
-// session_start();
-//
-// // $_POSTが空なら新規読み込み
-// if (!empty($_POST)) {
-//
-//     // エラー項目の確認
-//     // if ($_POST['user_id'] == '') {
-//     //   $input_error['user_id'] = 'blank';
-//     // }
-//     // if ($_POST['password'] == '') {
-//     //   $input_error['password'] = 'blank';
-//     // }
-//     // if (strlen($_POST['password']) < 8) {
-//     //   $input_error['password'] = 'length';
-//     // }
-//     //
-//     // if (!empty($input_error)) {
-//     //   if ($_POST['action'] == 'login') {
-//     //     // include './login.php';
-//     //
-//     //   } elseif ($_POST['action'] == 'create_account') {
-//     //     // include './create_account.php'
-//     //   }
-//     // }
-// }
--->
+<?php
+include('./common/ChromePhp.php');
+ChromePhp::log($_POST);
+session_start();
+
+// $_POSTが空なら新規読み込み
+if (!empty($_POST)) {
+
+    // エラー項目の確認
+    if ($_POST['user_id'] == '') {
+      $input_error['user_id'] = 'blank';
+    }
+
+    if (strlen($_POST['password']) < 8) {
+      $input_error['password'] = 'length';
+    }
+    if ($_POST['password'] == '') {
+      $input_error['password'] = 'blank';
+    }
+
+    if (!empty($input_error)) {
+      if ($_POST['action'] == 'login') {
+        // include './login.php';
+
+      } elseif ($_POST['action'] == 'create_account') {
+        // include './create_account.php'
+      }
+    }
+}
+?>
+
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -42,19 +43,19 @@
             <h1 class="app_name">家計簿アプリ</h1>
             <div class="login_input_area">
                 <form id="login_form" action="" enctype="multipart/form-data" method="post">
-                    <?php if($input_error['user_id'] == 'blank'); ?>
+                    <?php if($input_error['user_id'] == 'blank'): ?>
                         <p id="waring_empty_user_name" class="input_warning">ユーザ名が空白です。</p>
                     <?php endif; ?>
                     <!-- <p id="waring_dupulicate_user_name" class="input_warning">そのユーザ名はすでに登録されています。</p> -->
-                    <input type="text" name="user_id" size="40" class="text_input input_item" placeholder="ユーザ名">
-                    <?php if($input_error['password'] == 'blank'); ?>
+                    <input type="text" name="user_id" size="40" class="text_input input_item" placeholder="ユーザ名" value="<?php echo htmlspecialchars($_POST["user_id"], ENT_QUOTES, 'UTF-8'); ?>">
+                    <?php if($input_error['password'] == 'blank'): ?>
                         <p id="waring_empty_password" class="input_warning">パスワードが空白です。</p>
                     <?php endif; ?>
-                    <?php if($input_error['password'] == 'length'); ?>
+                    <?php if($input_error['password'] == 'length'): ?>
                         <p id="waring_short_password" class="input_warning">パスワードが短すぎます。(英数8文字以上)</p>
                     <?php endif; ?>
                     <!-- <p id="waring_wrong_password" class="input_warning">パスワードが一致しません。</p> -->
-                    <input type="password" name="password" size="40" class="text_input input_item" placeholder="パスワード">
+                    <input type="password" name="password" size="40" class="text_input input_item" placeholder="パスワード" value="<?php echo htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8'); ?>">
                     <button type="submit" name="action" value="login" class="input_item">ログイン</button>
                     <button type="submit" name="action" value="create_account" class="input_item">家計簿新規作成</button>
                 </form>
