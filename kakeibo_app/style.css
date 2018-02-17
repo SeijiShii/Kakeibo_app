@@ -32,7 +32,10 @@ body {
   border: darkgray 1px solid;
 }
 
-h1.app_name{
+h1.app_name_large{
+    position: relative;
+    left: 0;
+    right: 0;
     text-indent: -9999px;
     background: url(./images/kakeibo_app_name.png) no-repeat center top;
     -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.3) 3px 3px 6px);
@@ -41,10 +44,30 @@ h1.app_name{
     margin: 10px auto;
 }
 
+h1.app_name_small{
+    text-indent: -9999px;
+    background: url(./images/kakeibo_app_name.png) no-repeat center top;
+    -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.3) 3px 3px 6px);
+    background-size: contain;
+    height: 70px;
+    width: 210px;
+    margin: 10px 30px auto auto;
+}
+
 .content_area {
     width: 700px;
     height: 1000px;
     margin: auto;
+}
+
+.content_area
+h2 {
+  text-indent: 20px;
+  color: #00755e;
+  font-size: 30px;
+  margin-top: 0;
+  margin-bottom: 10px;
+  border-bottom: #00755e 3px solid;
 }
 
 .content_area
@@ -222,20 +245,22 @@ button:active {
     }
 
     .content_area
+    .login_input_area
     #login_form {
         position: relative;
-        float: clear;
         width: 100%;
-        height: 200px;
+        height: 250px;
+        clear: both;
     }
 
     .content_area
+    .login_input_area
     #oauth2_login {
         position: relative;
-        float: clear;
         width: 100%;
         height: 250px;
         text-align: center;
+        clear: both;
     }
 
 

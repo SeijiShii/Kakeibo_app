@@ -18,12 +18,14 @@ if (!empty($_POST)) {
       $input_error['password'] = 'blank';
     }
 
-    if (!empty($input_error)) {
+    if (empty($input_error)) {
       if ($_POST['action'] == 'login') {
         // include './login.php';
 
       } elseif ($_POST['action'] == 'create_account') {
-        // include './create_account.php'
+        $_SESSION['create_account'] = $_POST;
+        header('Location: create_account_confirm.php');
+        exit();
       }
     }
 }
@@ -40,7 +42,8 @@ if (!empty($_POST)) {
         <body>
     </head>
         <div class="content_area">
-            <h1 class="app_name">家計簿アプリ</h1>
+            <h1 class="app_name_large">家計簿アプリ</h1>
+            <h2>ログイン</h2>
             <div class="login_input_area">
                 <form id="login_form" action="" enctype="multipart/form-data" method="post">
                     <?php if($input_error['user_id'] == 'blank'): ?>
@@ -57,9 +60,9 @@ if (!empty($_POST)) {
                     <!-- <p id="waring_wrong_password" class="input_warning">パスワードが一致しません。</p> -->
                     <input type="password" name="password" size="40" class="text_input input_item" placeholder="パスワード" value="<?php echo htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8'); ?>">
                     <button type="submit" name="action" value="login" class="app_ui_button input_item">ログイン</button>
-                    <button type="submit" name="action" value="create_account" class="app_ui_button input_item">家計簿新規作成</button>
+                    <button type="submit" name="action" value="create_account" class="app_ui_button input_item">アカウント新規作成</button>
                 </form>
-                <form id="oauth2_login" action="" enctype="multipart/form-data method="post">
+                <form id="oauth2_login" action="" enctype="multipart/form-data" method="post">
                     <p>以下でもログインできます。</p>
                     <ul>
                         <li><button id="facebook_button" type="submit" name="action" value="fasebook_login"><img class="oauth2_logo" src="images/facebook.png"></button></li>
