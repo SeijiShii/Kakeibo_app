@@ -262,6 +262,44 @@ button:active {
         text-align: center;
         clear: both;
     }
+}
 
+.create_account_confirm_page
+#confirm_form
+.message {
+    color: #00755e;
+    font-size: 20px;
+}
 
+.create_account_confirm_page
+#confirm_form
+.new_account_name {
+    height: 100px;
+    line-height: 100px;
+    font-size: 50px;
+    max-width: 80%;
+    background-color: whitesmoke;
+    color: #00755e;
+    margin: 10px auto;
+    text-align: center;
+    box-shadow: 3px 3px 6px gray inset;
+}
+
+.create_account_confirm_page
+#confirm_form
+.button {
+    width: 45%;
+    margin: 5px;
+}
+
+.create_account_confirm_page
+#confirm_form
+.cancel_button {
+    float: left;
+}
+
+.create_account_confirm_page
+#confirm_form
+.ok_button {
+    float: right;
 }

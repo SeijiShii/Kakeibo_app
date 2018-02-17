@@ -1,39 +1,48 @@
 <?php
 include('./common/ChromePhp.php');
-// include('./duplicate_id_check.php');
 include_once('./user_db.php');
+
 session_start();
 
-// include('./db/db_connect.php');
 $userDB = new UserDB();
-ChromePhp::log($userDB);
+// ChromePhp::log($userDB);
+
+// 確認画面からの戻りなら$_POSTにその前のセッションを書き戻す。
+ChromePhp::log($_SESSION);
+
+if ($_SESSION['rewrite']['action'] == 'rewrite') {
+    $_POST['user_name'] = $_SESSION['rewrite']['user_name'];
+    $_POST['password'] = $_SESSION['rewrite']['password'];
+}
+ChromePhp::log($_POST);
 
 // $_POSTが空なら新規読み込み
 if (!empty($_POST)) {
 
     // エラー項目の確認
-    if ($_POST['user_id'] == '') {
-      $input_error['user_id'] = 'blank';
+    if ($_POST['user_name'] == '') {
+      $input_error['user_name'] = 'blank';
     }
 
     if (strlen($_POST['password']) < 8) {
       $input_error['password'] = 'length';
     }
     if ($_POST['password'] == '') {
-      $input_error['password'] = 'blank';
+        $input_error['password'] = 'blank';
     }
 
     if (empty($input_error)) {
-      if ($_POST['action'] == 'login') {
+        if ($_POST['action'] == 'login') {
         // include './login.php';
 
-      } elseif ($_POST['action'] == 'create_account') {
+        } elseif ($_POST['action'] == 'create_account') {
         // TODO: Check duplicate account name.
 
-        $_SESSION['create_account'] = $_POST;
-            $userDB->checkDuplicatedId($_POST['user_id']);
+            $userDB->checkDuplicatedId($_POST['user_name']);
             // ChromePhp::log('Outside checkDuplicatedId func.');
             if (empty($input_error)) {
+                $_SESSION['create_account'] = $_POST;
+                ChromePhp::log($_SESSION);
                 header('Location: create_account_confirm.php');
                 exit();
             }
@@ -54,13 +63,13 @@ if (!empty($_POST)) {
             <h2>ログイン</h2>
             <div class="login_input_area">
                 <form id="login_form" action="" enctype="multipart/form-data" method="post">
-                    <?php if($input_error['user_id'] == 'blank'): ?>
+                    <?php if($input_error['user_name'] == 'blank'): ?>
                         <p id="waring_empty_user_name" class="input_warning">ユーザ名が空白です。</p>
                     <?php endif; ?>
-                    <?php if($input_error['user_id'] == 'duplicated_user_id'): ?>
+                    <?php if($input_error['user_name'] == 'duplicated_user_name'): ?>
                         <p id="waring_dupulicate_user_name" class="input_warning">そのユーザ名はすでに登録されています。</p>
                     <?php endif; ?>
-                    <input type="text" name="user_id" size="40" class="text_input input_item" placeholder="ユーザ名" value="<?php echo htmlspecialchars($_POST["user_id"], ENT_QUOTES, 'UTF-8'); ?>">
+                    <input type="text" name="user_name" size="40" class="text_input input_item" placeholder="ユーザ名" value="<?php echo htmlspecialchars($_POST["user_name"], ENT_QUOTES, 'UTF-8'); ?>">
                     <?php if($input_error['password'] == 'blank'): ?>
                         <p id="waring_empty_password" class="input_warning">パスワードが空白です。</p>
                     <?php endif; ?>
