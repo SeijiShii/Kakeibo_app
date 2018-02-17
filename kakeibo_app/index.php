@@ -1,7 +1,12 @@
 <?php
 include('./common/ChromePhp.php');
-ChromePhp::log($_POST);
+// include('./duplicate_id_check.php');
+include_once('./user_db.php');
 session_start();
+
+// include('./db/db_connect.php');
+$userDB = new UserDB();
+ChromePhp::log($userDB);
 
 // $_POSTが空なら新規読み込み
 if (!empty($_POST)) {
@@ -23,10 +28,16 @@ if (!empty($_POST)) {
         // include './login.php';
 
       } elseif ($_POST['action'] == 'create_account') {
+        // TODO: Check duplicate account name.
+
         $_SESSION['create_account'] = $_POST;
-        header('Location: create_account_confirm.php');
-        exit();
-      }
+            $userDB->checkDuplicatedId($_POST['user_id']);
+            // ChromePhp::log('Outside checkDuplicatedId func.');
+            if (empty($input_error)) {
+                header('Location: create_account_confirm.php');
+                exit();
+            }
+        }
     }
 }
 ?>
@@ -34,13 +45,10 @@ if (!empty($_POST)) {
 <!DOCTYPE HTML>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?php include('./header.php') ?>
         <title>家計簿アプリ</title>
-        <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
-        <link type="text/css" href="style.css?date=<?php echo date('YmdHis', filemtime('style.css')); ?>" rel="stylesheet">
-        <body>
     </head>
+    <body>
         <div class="content_area">
             <h1 class="app_name_large">家計簿アプリ</h1>
             <h2>ログイン</h2>
@@ -49,7 +57,9 @@ if (!empty($_POST)) {
                     <?php if($input_error['user_id'] == 'blank'): ?>
                         <p id="waring_empty_user_name" class="input_warning">ユーザ名が空白です。</p>
                     <?php endif; ?>
-                    <!-- <p id="waring_dupulicate_user_name" class="input_warning">そのユーザ名はすでに登録されています。</p> -->
+                    <?php if($input_error['user_id'] == 'duplicated_user_id'): ?>
+                        <p id="waring_dupulicate_user_name" class="input_warning">そのユーザ名はすでに登録されています。</p>
+                    <?php endif; ?>
                     <input type="text" name="user_id" size="40" class="text_input input_item" placeholder="ユーザ名" value="<?php echo htmlspecialchars($_POST["user_id"], ENT_QUOTES, 'UTF-8'); ?>">
                     <?php if($input_error['password'] == 'blank'): ?>
                         <p id="waring_empty_password" class="input_warning">パスワードが空白です。</p>
