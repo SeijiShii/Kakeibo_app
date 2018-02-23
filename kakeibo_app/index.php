@@ -38,8 +38,10 @@ if (!empty($_POST)) {
         } elseif ($_POST['action'] == 'create_account') {
         // TODO: Check duplicate account name.
 
-            $userDB->checkDuplicatedId($_POST['user_name']);
-            // ChromePhp::log('Outside checkDuplicatedId func.');
+            if ($userDB->checkDuplicatedUserName($_POST['user_name'])){
+                $input_error['user_name'] = 'duplicated_user_name';
+            }
+
             if (empty($input_error)) {
                 $_SESSION['create_account'] = $_POST;
                 ChromePhp::log($_SESSION);
