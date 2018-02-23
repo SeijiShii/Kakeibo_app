@@ -85,13 +85,14 @@ class UserDB {
                 $loginResult['user_id'] = $id;    
             } else {
                 $loginResult['result'] = false;
+                $loginResult['error'] = 'wrong_password';
             }
         } else {
             $loginResult['result'] = false;
             $loginResult['error'] = 'user_name_not_found';
         }
 
-        ChromePhp::log($loginResult);
+        // ChromePhp::log($loginResult);
         return $loginResult;
     }
 

@@ -12,7 +12,8 @@ session_start();
 // }
 
 // $_POST = $_SESSION['create_account'];
-// var_dump($_POST);
+ChromePhp::log($_SESSION);
+
 if (!empty($_POST)) {
     // ChromePhp::log($_POST);
     switch($_POST['action']) {
@@ -20,6 +21,8 @@ if (!empty($_POST)) {
             // ChromePhp::log('Cancel clicked!');
             $_SESSION['rewrite'] = $_SESSION['create_account'];
             $_SESSION['rewrite']['action'] = 'rewrite';
+
+            $_SESSION['create_account'] = null;
 
             header('Location: ./index.php');
             exit();

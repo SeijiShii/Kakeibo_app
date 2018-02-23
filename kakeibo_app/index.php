@@ -3,6 +3,7 @@ include('./common/ChromePhp.php');
 include_once('./user_db.php');
 
 session_start();
+// session_destroy();
 
 $userDB = new UserDB();
 // ChromePhp::log($userDB);
@@ -13,8 +14,9 @@ ChromePhp::log($_SESSION);
 if ($_SESSION['rewrite']['action'] == 'rewrite') {
     $_POST['user_name'] = $_SESSION['rewrite']['user_name'];
     $_POST['password'] = $_SESSION['rewrite']['password'];
+    $_SESSION['rewrite'] = null;
 }
-ChromePhp::log($_POST);
+ChromePhp::log($_SESSION);
 
 // $_POSTが空なら新規読み込み
 if (!empty($_POST)) {
@@ -34,6 +36,11 @@ if (!empty($_POST)) {
     if (empty($input_error)) {
         if ($_POST['action'] == 'login') {
         // include './login.php';
+        $loginResult = $userDB->loginWithNameAndPass($_POST['user_name'], $_POST['password']);
+        ChromePhp::log($loginResult);
+        if (!empty($loginResult['error'])){
+            $input_error['user_name'] = $loginResult['error'];
+        }
 
         } elseif ($_POST['action'] == 'create_account') {
         // TODO: Check duplicate account name.
@@ -70,6 +77,9 @@ if (!empty($_POST)) {
                     <?php endif; ?>
                     <?php if($input_error['user_name'] == 'duplicated_user_name'): ?>
                         <p id="waring_dupulicate_user_name" class="input_warning">そのユーザ名はすでに登録されています。</p>
+                    <?php endif; ?>
+                    <?php if($input_error['user_name'] == 'user_name_not_found'): ?>
+                        <p id="waring_user_name_not_found" class="input_warning">そのユーザ名は存在しません。</p>
                     <?php endif; ?>
                     <input type="text" name="user_name" size="40" class="text_input input_item" placeholder="ユーザ名" value="<?php echo htmlspecialchars($_POST["user_name"], ENT_QUOTES, 'UTF-8'); ?>">
                     <?php if($input_error['password'] == 'blank'): ?>
