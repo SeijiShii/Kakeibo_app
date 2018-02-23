@@ -27,7 +27,11 @@ if (!empty($_POST)) {
 
         case 'create_account_ok':
             ChromePhp::log('OK clicked!');
-            $userDB->createUserWithNameAndPass($_SESSION['create_account']['user_name'], $_SESSION['create_account']['password']);
+            $result = $userDB->createUserWithNameAndPassThenLogin($_SESSION['create_account']['user_name'], $_SESSION['create_account']['password']);
+            // ChromePhp::log($result);
+            $_SESSION['user_id'] = $result['user_id'];
+            $_SESSION['login_state'] = $result['login_result'];
+            ChromePhp::log($_SESSION);
             break;
     }
 }
