@@ -34,7 +34,14 @@ if (!empty($_POST)) {
             // ChromePhp::log($result);
             $_SESSION['user_id'] = $result['user_id'];
             $_SESSION['login_state'] = $result['login_result'];
+            $_SESSION['create_account'] = null;
             ChromePhp::log($_SESSION);
+            if ($_SESSION['login_state']) {
+                header('Location: ./kakeibo_home.php');
+            } else {
+                header('Location: ./index.php');
+            }
+            exit();
             break;
     }
 }

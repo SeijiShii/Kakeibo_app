@@ -20,7 +20,7 @@ class UserDB {
 
         $sql = 'INSERT INTO user_table(user_id, user_name, password) VALUES(?, ?, ?);';
         if ($statement = $this->db->prepare($sql)) {
-            $userId = $this->_generateUserId($userName);
+            $userId = $this->_generateUserId();
             $statement->bind_param('sss', $userId, $userName, sha1($password));
             $statement->execute();
             $success = $statement->affected_rows == 1;
@@ -67,9 +67,9 @@ class UserDB {
     //     }
     // }
 
-    private function _generateUserId($prefix) {
+    private function _generateUserId() {
         $dateTime = date('YmdHis');
-        $id = $prefix . '_' . $dateTime . sprintf('%04d', mt_rand(1, 1000)); 
+        $id = 'user_' . $dateTime . sprintf('%04d', mt_rand(1, 1000)); 
         // ChromePhp::log($id);
         return $id;
     }
@@ -152,6 +152,36 @@ class UserDB {
     public function checkDuplicatedUserName($userName) {
         ChromePhp::log('In checkDuplicatedUserName');
         return $this->checkUserNameExists($userName);
+    }
+
+    private function getUserDataById($userId) {
+
+        // ChromePhp::log('In getUserDataById:' . $userId);
+
+        $sql = 'SELECT * FROM user_table WHERE user_id = ?';
+        if ($statement = $this->db->prepare($sql)) {
+            $statement->bind_param('s', $userId);
+            $statement->execute();
+            // ChromePhp::log('sql executed.');
+            $result = $statement->get_result();
+            $row = $result->fetch_array(MYSQLI_ASSOC);
+            // ChromePhp::log($row);
+            $statement->close();
+            return $row;
+
+        } else {
+            ChromePhp::log('Error in getUserDataById');
+        }
+    }
+
+    public function getUserNameById($userId) {
+
+        $data = $this->getUserDataById($userId);
+        if (!empty($data['user_name'])) {
+            return $data['user_name'];
+        } else {
+            
+        }
     }
 }
 ?>

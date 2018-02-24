@@ -39,7 +39,13 @@ if (!empty($_POST)) {
         $loginResult = $userDB->loginWithNameAndPass($_POST['user_name'], $_POST['password']);
         ChromePhp::log($loginResult);
         if (!empty($loginResult['error'])){
-            $input_error['user_name'] = $loginResult['error'];
+            if ($loginResult['error'] == 'user_name_not_found') {
+                $input_error['user_name'] = $loginResult['error'];
+            } elseif ($loginResult['error'] == 'wrong_password') {
+                $input_error['password'] = $loginResult['error'];
+            }
+        } else {
+            header('Location: ./kakeibo_home.php');
         }
 
         } elseif ($_POST['action'] == 'create_account') {
@@ -52,7 +58,7 @@ if (!empty($_POST)) {
             if (empty($input_error)) {
                 $_SESSION['create_account'] = $_POST;
                 ChromePhp::log($_SESSION);
-                header('Location: create_account_confirm.php');
+                header('Location: ./create_account_confirm.php');
                 exit();
             }
         }
@@ -88,7 +94,9 @@ if (!empty($_POST)) {
                     <?php if($input_error['password'] == 'length'): ?>
                         <p id="waring_short_password" class="input_warning">パスワードが短すぎます。(英数8文字以上)</p>
                     <?php endif; ?>
-                    <!-- <p id="waring_wrong_password" class="input_warning">パスワードが一致しません。</p> -->
+                    <?php if($input_error['password'] == 'wrong_password'): ?>
+                        <p id="waring_wrong_password" class="input_warning">パスワードが一致しません。</p> 
+                    <?php endif; ?>
                     <input type="password" name="password" size="40" class="text_input input_item" placeholder="パスワード" value="<?php echo htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8'); ?>">
                     <button type="submit" name="action" value="login" class="app_ui_button input_item">ログイン</button>
                     <button type="submit" name="action" value="create_account" class="app_ui_button input_item">アカウント新規作成</button>
