@@ -132,15 +132,14 @@ class UserDB {
             $loginResult = $this->loginWithNameAndPass($userName, $password);
 
             ChromePhp::log($loginResult);
-            
-            // ユーザ作成に成功した直後にこれが返ってきたら意味不明
-            if ($loginResult == 'user_name_not_found') {
-                $userDBResult['error'] = 'unknown_error';
-                $userDBResult['login_result'] = false;
-            } else {
-                $userDBResult['login_result'] = true;
-                $userDBResult['user_id'] = $loginResult['user_id'];
+
+            if (empty($loginResult['error'])) {
+                $userDBResult['error'] = $loginResult['error'];
             }
+
+            $userDBResult['login_result'] = $loginResult['login_result'];
+            $userDBResult['user_id'] = $loginResult['user_id'];
+
         } else {
             $userDBResult['create_result'] = false;
             $userDBResult['error'] = 'unknown_error';
