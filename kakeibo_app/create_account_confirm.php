@@ -6,10 +6,10 @@ $userDB = new UserDB;
 
 session_start();
 
-// if (!isset($_SESSION['create_account'])) {
-//     header('Location: ./index.php');
-//     exit();
-// }
+if (!isset($_SESSION['create_account'])) {
+    header('Location: ./index.php');
+    exit();
+}
 
 // $_POST = $_SESSION['create_account'];
 ChromePhp::log($_SESSION);

@@ -45,6 +45,8 @@ if (!empty($_POST)) {
                 $input_error['password'] = $loginResult['error'];
             }
         } else {
+            $_SESSION['user_id'] = $loginResult['user_id'];
+            $_SESSION['login_state'] = $loginResult['login_result'];
             header('Location: ./kakeibo_home.php');
         }
 

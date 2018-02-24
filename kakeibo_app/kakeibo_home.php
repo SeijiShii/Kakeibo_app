@@ -3,12 +3,20 @@ include('./common/ChromePhp.php');
 include_once('./user_db.php');
 
 session_start();
+
+if (!$_SESSION['login_state']) {
+    header('Location: ./index.php');
+    exit();
+}
+
 $userDB = new UserDB();
 
 ChromePhp::log($_POST);
 ChromePhp::log($_SESSION);
 
 if ($_POST['action'] == 'logout') {
+    $_SESSION['login_state'] = false;
+    $_SESSION['user_id'] = null;
     header('Location: ./index.php');
     exit();
 }

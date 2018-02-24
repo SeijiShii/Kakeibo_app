@@ -81,14 +81,14 @@ class UserDB {
         if ($this->checkUserNameExists($userName)) {
             $id = $this->_getUserIdByNameAndPass($userName, $password);
             if (!empty($id)) {
-                $loginResult['result'] = true;
+                $loginResult['login_result'] = true;
                 $loginResult['user_id'] = $id;    
             } else {
-                $loginResult['result'] = false;
+                $loginResult['login_result'] = false;
                 $loginResult['error'] = 'wrong_password';
             }
         } else {
-            $loginResult['result'] = false;
+            $loginResult['login_result'] = false;
             $loginResult['error'] = 'user_name_not_found';
         }
 
@@ -180,7 +180,7 @@ class UserDB {
         if (!empty($data['user_name'])) {
             return $data['user_name'];
         } else {
-            
+
         }
     }
 }
