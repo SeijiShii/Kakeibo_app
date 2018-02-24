@@ -109,7 +109,7 @@ class UserDB {
             $statement->free_result();
             $statement->close();
 
-            ChromePhp::log('In checkUserNameExists: before return');
+            // ChromePhp::log('In checkUserNameExists: before return');
             return $numRows > 0;
         }
     }
@@ -149,7 +149,7 @@ class UserDB {
     }
 
     public function checkDuplicatedUserName($userName) {
-        ChromePhp::log('In checkDuplicatedUserName');
+        // ChromePhp::log('In checkDuplicatedUserName');
         return $this->checkUserNameExists($userName);
     }
 

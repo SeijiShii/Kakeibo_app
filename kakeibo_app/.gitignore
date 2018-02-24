@@ -1,3 +1,4 @@
 *.xcf
 *.docx
 db_define.php
+secret/
