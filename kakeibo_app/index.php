@@ -1,6 +1,18 @@
 <?php
 include('./common/ChromePhp.php');
 include_once('./user_db.php');
+require_once('./vendor/autoload.php');
+
+// Use the developers console and replace the values with your
+// service account email, and relative location of your key file.
+$service_account_email = 'seiji.shii@gmail.com';
+$key_file_location = './secret/client_secret_394041585919-h5gcc158t7ff0t921nngvh5mc99l31ic.apps.googleusercontent.com';
+
+$client = new Google_Client();
+// ChromePhp::log($client);
+
+$client->setApplicationName("家計簿アプリ");
+
 
 session_start();
 // session_destroy();
@@ -9,61 +21,84 @@ $userDB = new UserDB();
 // ChromePhp::log($userDB);
 
 // 確認画面からの戻りなら$_POSTにその前のセッションを書き戻す。
-ChromePhp::log($_SESSION);
+ChromePhp::log($_POST);
 
 if ($_SESSION['rewrite']['action'] == 'rewrite') {
     $_POST['user_name'] = $_SESSION['rewrite']['user_name'];
     $_POST['password'] = $_SESSION['rewrite']['password'];
     $_SESSION['rewrite'] = null;
 }
-ChromePhp::log($_SESSION);
+// ChromePhp::log($_SESSION);
 
 // $_POSTが空なら新規読み込み
 if (!empty($_POST)) {
 
-    // エラー項目の確認
-    if ($_POST['user_name'] == '') {
-      $input_error['user_name'] = 'blank';
-    }
+    switch($_POST['action']) {
+        case 'facebook_login':
+            ChromePhp::log('Facebook Login!');
+            break;
 
-    if (strlen($_POST['password']) < 8) {
-      $input_error['password'] = 'length';
-    }
-    if ($_POST['password'] == '') {
-        $input_error['password'] = 'blank';
-    }
+        case 'google_login':
+            ChromePhp::log('Google Login!');
+            break;
 
-    if (empty($input_error)) {
-        if ($_POST['action'] == 'login') {
-        // include './login.php';
-        $loginResult = $userDB->loginWithNameAndPass($_POST['user_name'], $_POST['password']);
-        ChromePhp::log($loginResult);
-        if (!empty($loginResult['error'])){
-            if ($loginResult['error'] == 'user_name_not_found') {
-                $input_error['user_name'] = $loginResult['error'];
-            } elseif ($loginResult['error'] == 'wrong_password') {
-                $input_error['password'] = $loginResult['error'];
+        case 'twitter_login':
+            ChromePhp::log('Twitter Login!');
+            break;
+
+        case 'line_login':
+            ChromePhp::log('LINE Login!');    
+            break;
+
+        case 'login':
+        case 'create_account':
+
+            // エラー項目の確認
+            if ($_POST['user_name'] == '') {
+                $input_error['user_name'] = 'blank';
             }
-        } else {
-            $_SESSION['user_id'] = $loginResult['user_id'];
-            $_SESSION['login_state'] = $loginResult['login_result'];
-            header('Location: ./kakeibo_home.php');
-        }
-
-        } elseif ($_POST['action'] == 'create_account') {
-        // TODO: Check duplicate account name.
-
-            if ($userDB->checkDuplicatedUserName($_POST['user_name'])){
-                $input_error['user_name'] = 'duplicated_user_name';
+        
+            if (strlen($_POST['password']) < 8) {
+                $input_error['password'] = 'length';
             }
-
+            if ($_POST['password'] == '') {
+                $input_error['password'] = 'blank';
+            }
+        
+            ChromePhp::Log($input_error);
             if (empty($input_error)) {
-                $_SESSION['create_account'] = $_POST;
-                ChromePhp::log($_SESSION);
-                header('Location: ./create_account_confirm.php');
-                exit();
+                if ($_POST['action'] == 'login') {
+                // include './login.php';
+                $loginResult = $userDB->loginWithNameAndPass($_POST['user_name'], $_POST['password']);
+                ChromePhp::log($loginResult);
+                if (!empty($loginResult['error'])){
+                    if ($loginResult['error'] == 'user_name_not_found') {
+                        $input_error['user_name'] = $loginResult['error'];
+                    } elseif ($loginResult['error'] == 'wrong_password') {
+                        $input_error['password'] = $loginResult['error'];
+                    }
+                } else {
+                    $_SESSION['user_id'] = $loginResult['user_id'];
+                    $_SESSION['login_state'] = $loginResult['login_result'];
+                    header('Location: ./kakeibo_home.php');
+                }
+        
+                } elseif ($_POST['action'] == 'create_account') {
+                // TODO: Check duplicate account name.
+        
+                    if ($userDB->checkDuplicatedUserName($_POST['user_name'])){
+                        $input_error['user_name'] = 'duplicated_user_name';
+                    }
+        
+                    if (empty($input_error)) {
+                        $_SESSION['create_account'] = $_POST;
+                        ChromePhp::log($_SESSION);
+                        header('Location: ./create_account_confirm.php');
+                        exit();
+                    }
+                } 
             }
-        }
+            break;
     }
 }
 ?>
@@ -106,8 +141,8 @@ if (!empty($_POST)) {
                 <form id="oauth2_login" action="" enctype="multipart/form-data" method="post">
                     <p>以下でもログインできます。</p>
                     <ul>
-                        <li><button id="facebook_button" type="submit" name="action" value="fasebook_login"><img class="oauth2_logo" src="images/facebook.png"></button></li>
-                        <li><button id="google_button" type="submit" name="action" value="google_login"><img class="oauth2_logo" src="images/google.png"></button></li>
+                        <li><button id="facebook_button" type="submit" name="action" value="facebook_login"><img class="oauth2_logo" src="images/facebook.png"></button></li>
+                        <li><button id="google_button" type="submit" name="action" value="google_login" ><img class="oauth2_logo" src="images/google.png"></button></li>
                         <li><button id="twitter_button" type="submit" name="action" value="twitter_login"><img class="oauth2_logo" src="images/twitter.png"></button></li>
                         <li><button id="line_button" type="submit" name="action" value="line_login"><img class="oauth2_logo" src="images/line.png"></button></li>
                     </ul>
