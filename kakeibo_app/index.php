@@ -1,6 +1,8 @@
 <?php
+// ini_set('display_errors', "On");
+
 include('./common/ChromePhp.php');
-include_once('./user_db.php');
+include_once('./user_db/user_db.php');
 include_once('./google_signin/google_signin.php');
 
 session_start();

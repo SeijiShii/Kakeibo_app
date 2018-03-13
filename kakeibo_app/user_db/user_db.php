@@ -1,5 +1,5 @@
 <?php
-require('./db_define.php');
+require($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/db_define.php');
 
 class UserDB {
     
