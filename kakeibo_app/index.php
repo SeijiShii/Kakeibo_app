@@ -1,29 +1,21 @@
 <?php
 include('./common/ChromePhp.php');
 include_once('./user_db.php');
-require_once('./vendor/autoload.php');
-
-// Use the developers console and replace the values with your
-// service account email, and relative location of your key file.
-$service_account_email = 'seiji.shii@gmail.com';
-$key_file_location = './secret/client_secret_394041585919-h5gcc158t7ff0t921nngvh5mc99l31ic.apps.googleusercontent.com';
-
-$client = new Google_Client();
-// ChromePhp::log($client);
-
-$client->setApplicationName("家計簿アプリ");
-
+include_once('./google_signin/google_signin.php');
 
 session_start();
-// session_destroy();
+// session_destroy()
+
+require './google_client_config.php';
 
 $userDB = new UserDB();
 // ChromePhp::log($userDB);
 
 // 確認画面からの戻りなら$_POSTにその前のセッションを書き戻す。
 ChromePhp::log($_POST);
+ChromePhp::log($_GET);
 
-if ($_SESSION['rewrite']['action'] == 'rewrite') {
+if (isset($_SESSION['rewrite']) && $_SESSION['rewrite']['action'] == 'rewrite') {
     $_POST['user_name'] = $_SESSION['rewrite']['user_name'];
     $_POST['password'] = $_SESSION['rewrite']['password'];
     $_SESSION['rewrite'] = null;
@@ -40,7 +32,21 @@ if (!empty($_POST)) {
 
         case 'google_login':
             ChromePhp::log('Google Login!');
+            GoogleSignIn::signIn();
+            // header('Location: ./google_signin/google_signin.php');
+            exit();
             break;
+            // if (isset($_SESSION['google_access_token']) && $_SESSION['google_access_token']) {
+            //     $googleClient->setAccessToken($_SESSION['google_access_token']);
+                
+
+            // } else {
+            //     $google_auth_url = $googleClient->createAuthUrl();
+            //     // ChromePhp::log($google_auth_url);
+            //     header('Location: ' . filter_var($google_auth_url, FILTER_SANITIZE_URL));
+            //     break;
+            // }
+            
 
         case 'twitter_login':
             ChromePhp::log('Twitter Login!');
