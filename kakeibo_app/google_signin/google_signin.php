@@ -69,6 +69,17 @@ class GoogleSignIn {
         $result = $userDB->createUserWithGoogleIfNeededThenLogin($googleUser);
         var_dump($result);
 
+        $_SESSION['user_id'] = $result['user_id'];
+        $_SESSION['login_state'] = $result['login_result'];
+
+        var_dump($_SESSION);
+
+        $path = 'http://'.$_SERVER['HTTP_HOST'].'/kakeibo_app/kakeibo_home.php';
+        var_dump($path);
+
+        header('Location: '.$path);
+        exit();
+
     }
 
     public static function onCallback() {

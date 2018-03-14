@@ -17,6 +17,7 @@ ChromePhp::log($_SESSION);
 if ($_POST['action'] == 'logout') {
     $_SESSION['login_state'] = false;
     $_SESSION['user_id'] = null;
+    $_SESSION['google_access_token'] = null;
     header('Location: ./index.php');
     exit();
 }

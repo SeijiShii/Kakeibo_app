@@ -36,17 +36,6 @@ if (!empty($_POST)) {
             // header('Location: ./google_signin/google_signin.php');
             exit();
             break;
-            // if (isset($_SESSION['google_access_token']) && $_SESSION['google_access_token']) {
-            //     $googleClient->setAccessToken($_SESSION['google_access_token']);
-                
-
-            // } else {
-            //     $google_auth_url = $googleClient->createAuthUrl();
-            //     // ChromePhp::log($google_auth_url);
-            //     header('Location: ' . filter_var($google_auth_url, FILTER_SANITIZE_URL));
-            //     break;
-            // }
-            
 
         case 'twitter_login':
             ChromePhp::log('Twitter Login!');
