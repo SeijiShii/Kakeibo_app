@@ -2,7 +2,7 @@
 // ini_set('display_errors', "On");
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/vendor/autoload.php';
-include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php');
+include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php';
 
 class GoogleSignIn {
 
@@ -66,16 +66,16 @@ class GoogleSignIn {
         $userDB = new UserDB;
         // var_dump($userDB);
         
-        $result = $userDB->createUserWithGoogleIfNeededThenLogin($googleUser);
-        var_dump($result);
+        $result = $userDB->createUserWithOAuth2IfNeededThenLogin('google_id', $googleUser->id, $googleUser->name);
+        // var_dump($result);
 
         $_SESSION['user_id'] = $result['user_id'];
         $_SESSION['login_state'] = $result['login_result'];
 
-        var_dump($_SESSION);
+        // var_dump($_SESSION);
 
         $path = 'http://'.$_SERVER['HTTP_HOST'].'/kakeibo_app/kakeibo_home.php';
-        var_dump($path);
+        // var_dump($path);
 
         header('Location: '.$path);
         exit();

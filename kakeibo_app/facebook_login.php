@@ -1,6 +1,8 @@
 <?php
+include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/common/ChromePhp.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/vendor/autoload.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/secret/facebook_login_secret.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php';
 
 class FacebookLogin {
     private static $fb, $helper;
@@ -95,17 +97,33 @@ class FacebookLogin {
         try {
             // Returns a `Facebook\FacebookResponse` object
             $response = self::$fb->get('/me?fields=id,name', $accessToken);
-          } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
             echo 'Graph returned an error: ' . $e->getMessage();
             exit;
-          } catch(Facebook\Exceptions\FacebookSDKException $e) {
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
             echo 'Facebook SDK returned an error: ' . $e->getMessage();
             exit;
-          }
+        }
           
-          $user = $response->getGraphUser();
-          
-          var_dump($user);
+        $user = $response->getGraphUser();
+        
+        var_dump($user);
+
+        $userDB = new UserDB;
+        $result = $userDB->createUserWithOAuth2IfNeededThenLogin('facebook_id', $user['id'], $user['name']);
+
+        var_dump($result);
+
+        $_SESSION['user_id'] = $result['user_id'];
+        $_SESSION['login_state'] = $result['login_result'];
+
+        var_dump($_SESSION);
+
+        $path = 'http://'.$_SERVER['HTTP_HOST'].'/kakeibo_app/kakeibo_home.php';
+        var_dump($path);
+
+        header('Location: '.$path);
+        exit();
     }
 }
 

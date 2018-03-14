@@ -164,12 +164,67 @@ class UserDB {
         }
     }
 
-    // Google Sign in methods
-    private function _createUserWithGoogle($googleUser) {
-        $sql = 'INSERT INTO user_table(user_id, user_name, google_id) VALUES(?, ?, ?);';
+    // OAuth2 login in methods
+    // private function _createUserWithGoogle($googleUser) {
+    //     $sql = 'INSERT INTO user_table(user_id, user_name, google_id) VALUES(?, ?, ?);';
+    //     if ($statement = $this->db->prepare($sql)) {
+    //         $userId = $this->_generateUserId();
+    //         $statement->bind_param('sss', $userId, $googleUser->name, $googleUser->id);
+    //         $statement->execute();
+    //         $success = $statement->affected_rows == 1;
+    //         $statement->close();
+
+    //         return $success;
+    //     }
+    // }
+
+    // public function createUserWithGoogleIfNeededThenLogin($googleUser) {
+
+    //     $userDBResult = array();
+
+    //     $userData = $this->_getUserDataByOAuth2Id($googleUser->id);
+    //     var_dump(empty($userData));
+    //     if (empty($userData)) {
+    //         if ($this->_createUserWithGoogle($googleUser)) {
+    //             $userData = $this->_getUserDataByOAuth2Id($googleUser->id);
+    //         } else {
+    //             ChromePhp::log('Error in createUserWithGoogleIfNeededThenLogin');
+    //         }
+    //     } 
+
+    //     $userDBResult['login_result'] = true;
+    //     $userDBResult['user_name'] = $userData['user_name'];
+    //     $userDBResult['user_id'] = $userData['user_id'];
+
+    //     return $userDBResult;
+    // }
+
+    // private function _getUserDataByOAuth2Id($googleId) {
+
+    //     $sql = 'SELECT * FROM user_table WHERE google_id = ?';
+    //     if ($statement = $this->db->prepare($sql)) {
+    //         $statement->bind_param('s', $googleId);
+    //         $statement->execute();
+    //         // ChromePhp::log('sql executed.');
+    //         $result = $statement->get_result();
+    //         $row = $result->fetch_array(MYSQLI_ASSOC);
+    //         // ChromePhp::log($row);
+    //         $statement->close();
+    //         return $row;
+
+    //     } else {
+    //         ChromePhp::log('Error in getUserDataByGoogleId');
+    //     }
+    // }
+
+    private function _createUserWithOAuth2($dbFieldName, $oauthUserId, $userName) {
+        $sql = 'INSERT INTO user_table(user_id, user_name, '.$dbFieldName.') VALUES(?, ?, ?);';
+        
+        ChromePhp::log($sql);
+
         if ($statement = $this->db->prepare($sql)) {
             $userId = $this->_generateUserId();
-            $statement->bind_param('sss', $userId, $googleUser->name, $googleUser->id);
+            $statement->bind_param('sss', $userId, $userName, $oauthUserId);
             $statement->execute();
             $success = $statement->affected_rows == 1;
             $statement->close();
@@ -178,17 +233,21 @@ class UserDB {
         }
     }
 
-    public function createUserWithGoogleIfNeededThenLogin($googleUser) {
+    public function createUserWithOAuth2IfNeededThenLogin($dbFieldName, $oauthUserId, $userName) {
+
+        var_dump($dbFieldName);
+        var_dump($oauthUserId);
+        var_dump($userName);
 
         $userDBResult = array();
 
-        $userData = $this->_getUserDataByGoogleId($googleUser->id);
+        $userData = $this->_getUserDataByOAuth2Id($dbFieldName, $oauthUserId);
         var_dump(empty($userData));
         if (empty($userData)) {
-            if ($this->_createUserWithGoogle($googleUser)) {
-                $userData = $this->_getUserDataByGoogleId($googleUser->id);
+            if ($this->_createUserWithOAuth2($dbFieldName, $oauthUserId, $userName)) {
+                $userData = $this->_getUserDataByOAuth2Id($dbFieldName, $oauthUserId);
             } else {
-                ChromePhp::log('Error in createUserWithGoogleIfNeededThenLogin');
+                ChromePhp::log('Error in createUserWithOAuth2IfNeededThenLogin');
             }
         } 
 
@@ -199,11 +258,14 @@ class UserDB {
         return $userDBResult;
     }
 
-    private function _getUserDataByGoogleId($googleId) {
+    private function _getUserDataByOAuth2Id($dbFieldName, $oauthUserId) {
 
-        $sql = 'SELECT * FROM user_table WHERE google_id = ?';
+        $sql = 'SELECT * FROM user_table WHERE '.$dbFieldName.' = ?';
+        
+        ChromePhp::log($sql);
+
         if ($statement = $this->db->prepare($sql)) {
-            $statement->bind_param('s', $googleId);
+            $statement->bind_param('s', $oauthUserId);
             $statement->execute();
             // ChromePhp::log('sql executed.');
             $result = $statement->get_result();
@@ -213,9 +275,8 @@ class UserDB {
             return $row;
 
         } else {
-            ChromePhp::log('Error in getUserDataByGoogleId');
+            ChromePhp::log('Error in _getUserDataByOAuth2Id');
         }
     }
-
 }
 ?>
