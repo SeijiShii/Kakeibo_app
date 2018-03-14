@@ -1,14 +1,12 @@
 <?php
 // ini_set('display_errors', "On");
 
-include('./common/ChromePhp.php');
-include_once('./user_db/user_db.php');
-include_once('./google_signin/google_signin.php');
+include($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/common/ChromePhp.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/google_signin/google_signin.php');
 
 session_start();
 // session_destroy()
-
-require './google_client_config.php';
 
 $userDB = new UserDB();
 // ChromePhp::log($userDB);

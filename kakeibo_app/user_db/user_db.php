@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', "On");
+
 require($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/db_define.php');
 
 class UserDB {
@@ -16,6 +18,7 @@ class UserDB {
         }
     }
 
+    // Methods for Name and Password
     private function _createUserWithNameAndPass($userName, $password) {
 
         $sql = 'INSERT INTO user_table(user_id, user_name, password) VALUES(?, ?, ?);';
@@ -44,28 +47,6 @@ class UserDB {
             return $id;
         }
     }
-
-    // public function getUserIdByNameAndPass($userName, $password) 
-    // {
-    //     // ChromePhp::log($userName);
-    //     // ChromePhp::log(sha1($password));
-    //     $sql = "SELECT * FROM user_table WHERE user_name = ? AND password = ?;";
-       
-    //     if ($statement = $this->db->prepare($sql)) {
-    //         $statement->bind_param('ss', $userName, sha1($password));
-    //         $statement->execute();
-    //         // ChromePhp::log($statement->error);
-    //         $result = $statement->get_result();
-    //         // $statement->bind_result($result);
-    //         // $statement->fetch();
-    //         while ($row = $result->fetch_row()){
-    //             ChromePhp::log($row);
-    //         }
-    //         $result->close();
-    //         $statement->close();
-    //         // return $result;
-    //     }
-    // }
 
     private function _generateUserId() {
         $dateTime = date('YmdHis');
@@ -182,5 +163,59 @@ class UserDB {
 
         }
     }
+
+    // Google Sign in methods
+    private function _createUserWithGoogle($googleUser) {
+        $sql = 'INSERT INTO user_table(user_id, user_name, google_id) VALUES(?, ?, ?);';
+        if ($statement = $this->db->prepare($sql)) {
+            $userId = $this->_generateUserId();
+            $statement->bind_param('sss', $userId, $googleUser->name, $googleUser->id);
+            $statement->execute();
+            $success = $statement->affected_rows == 1;
+            $statement->close();
+
+            return $success;
+        }
+    }
+
+    public function createUserWithGoogleIfNeededThenLogin($googleUser) {
+
+        $userDBResult = array();
+
+        $userData = $this->_getUserDataByGoogleId($googleUser->id);
+        var_dump(empty($userData));
+        if (empty($userData)) {
+            if ($this->_createUserWithGoogle($googleUser)) {
+                $userData = $this->_getUserDataByGoogleId($googleUser->id);
+            } else {
+                ChromePhp::log('Error in createUserWithGoogleIfNeededThenLogin');
+            }
+        } 
+
+        $userDBResult['login_result'] = true;
+        $userDBResult['user_name'] = $userData['user_name'];
+        $userDBResult['user_id'] = $userData['user_id'];
+
+        return $userDBResult;
+    }
+
+    private function _getUserDataByGoogleId($googleId) {
+
+        $sql = 'SELECT * FROM user_table WHERE google_id = ?';
+        if ($statement = $this->db->prepare($sql)) {
+            $statement->bind_param('s', $googleId);
+            $statement->execute();
+            // ChromePhp::log('sql executed.');
+            $result = $statement->get_result();
+            $row = $result->fetch_array(MYSQLI_ASSOC);
+            // ChromePhp::log($row);
+            $statement->close();
+            return $row;
+
+        } else {
+            ChromePhp::log('Error in getUserDataByGoogleId');
+        }
+    }
+
 }
 ?>

@@ -1,6 +1,8 @@
 <?php
 // ini_set('display_errors', "On");
 
+include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php');
+
 class GoogleSignIn {
 
     private static $client;
@@ -29,39 +31,44 @@ class GoogleSignIn {
 
         GoogleSignIn::initClient();
 
-        if (isset($_SESSION['google_access_token']) && $_SESSION['google_access_token']) {
-            ChromePhp::log($_SESSION['google_access_token']);
-            self::$client->setAccessToken($_SESSION['google_access_token']);
+        // // $client->setAccessType("offline");という設定だからアクセストークンの格納とか要らない感じか？　
+        // if (isset($_SESSION['google_access_token']) && $_SESSION['google_access_token']) {
+        //     ChromePhp::log($_SESSION['google_access_token']);
+        //     self::$client->setAccessToken($_SESSION['google_access_token']);
         
-            GoogleSignIn::onSignedIn();
+        //     GoogleSignIn::onSignedIn();
 
-        } else {
-            $google_auth_url = self::$client->createAuthUrl();
-            // ChromePhp::log($google_auth_url);
-            header('Location: ' . filter_var($google_auth_url, FILTER_SANITIZE_URL));
-        }
+        // } else {
+        //     $google_auth_url = self::$client->createAuthUrl();
+        //     // ChromePhp::log($google_auth_url);
+        //     header('Location: ' . filter_var($google_auth_url, FILTER_SANITIZE_URL));
+        // }
 
-        // $google_auth_url = self::$client->createAuthUrl();
-        // header('Location: ' . filter_var($google_auth_url, FILTER_SANITIZE_URL));
+        $google_auth_url = self::$client->createAuthUrl();
+        header('Location: ' . filter_var($google_auth_url, FILTER_SANITIZE_URL));
     }
 
     public static function onSignedIn() {
-        // $plus = new Google_Service_Plus(self::$client);
-        // $me = $plus->people->get('me');
-        // // ChromePhp::log($plus->people);
-        // var_dump($plus->people);
 
+        // NOT NEEDED IN CASE: $client->setAccessType("offline"); !?
         // var_dump(self::$client->isAccessTokenExpired());
-        if (self::$client->isAccessTokenExpired()) {
-            $refreshToken = self::$client->getRefreshToken();
-            // var_dump($refreshToken);
-            self::$client->setAccessToken($refreshToken);
-        }
+        // if (self::$client->isAccessTokenExpired()) {
+        //     $refreshToken = self::$client->getRefreshToken();
+        //     var_dump($refreshToken);
+        //     self::$client->setAccessToken($refreshToken);
+        // }
 
         $googleOAuth2 = new Google_Service_Oauth2(self::$client);
         // var_dump($googleOAuth2->userinfo->get());
         $googleUser = $googleOAuth2->userinfo->get();
-        var_dump($googleUser);
+        // var_dump($googleUser);
+
+        $userDB = new UserDB;
+        // var_dump($userDB);
+        
+        $result = $userDB->createUserWithGoogleIfNeededThenLogin($googleUser);
+        var_dump($result);
+
     }
 
     public static function onCallback() {
@@ -72,7 +79,7 @@ class GoogleSignIn {
             // この時点でaccessTokenがExpireしていることがある
             $accessToken = self::$client->getAccessToken();
             $_SESSION['google_access_token'] = $accessToken;
-            var_dump($_SESSION['google_access_token']);
+            // var_dump($_SESSION['google_access_token']);
 
             GoogleSignIn::onSignedIn();
         
