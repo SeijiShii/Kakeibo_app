@@ -3,7 +3,7 @@
 
 include($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/common/ChromePhp.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/google_signin/google_signin.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/google_signin.php');
 
 session_start();
 // session_destroy()
@@ -33,7 +33,6 @@ if (!empty($_POST)) {
         case 'google_login':
             ChromePhp::log('Google Login!');
             GoogleSignIn::signIn();
-            // header('Location: ./google_signin/google_signin.php');
             exit();
             break;
 

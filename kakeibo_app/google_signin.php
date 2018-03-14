@@ -19,7 +19,7 @@ class GoogleSignIn {
         self::$client->setApplicationName('家計簿アプリ');
         self::$client->addScope(Google_Service_Plus::USERINFO_PROFILE);
         // self::$client->addScope(['email']);
-        self::$client->setRedirectUri('http://'.$_SERVER['HTTP_HOST'].'/kakeibo_app/google_signin/google_signin_callback.php');
+        self::$client->setRedirectUri('http://'.$_SERVER['HTTP_HOST'].'/kakeibo_app/google_signin_callback.php');
 
     }
 

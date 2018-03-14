@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors', "On");
+// ini_set('display_errors', "On");
 
 require($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/db_define.php');
 
