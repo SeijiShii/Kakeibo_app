@@ -1,9 +1,11 @@
 <?php
 // ini_set('display_errors', "On");
 
+require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/vendor/autoload.php';
 include($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/common/ChromePhp.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/google_signin.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/facebook_login.php');
 
 session_start();
 // session_destroy()
@@ -28,6 +30,7 @@ if (!empty($_POST)) {
     switch($_POST['action']) {
         case 'facebook_login':
             ChromePhp::log('Facebook Login!');
+            FacebookLogin::login();
             break;
 
         case 'google_login':

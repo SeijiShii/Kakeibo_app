@@ -1,6 +1,7 @@
 <?php
 // ini_set('display_errors', "On");
 
+require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/vendor/autoload.php';
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php');
 
 class GoogleSignIn {
@@ -8,8 +9,7 @@ class GoogleSignIn {
     private static $client;
     private static function initClient() {
 
-        // var_dump($_SERVER['DOCUMENT_ROOT']);
-        require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/vendor/autoload.php';
+        // require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/vendor/autoload.php';
 
         self::$client = new Google_Client();
         self::$client->setAuthConfig($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/secret/client_secret_394041585919-h5gcc158t7ff0t921nngvh5mc99l31ic.apps.googleusercontent.com.json');
