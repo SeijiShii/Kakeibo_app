@@ -1,3 +1,4 @@
+
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/common/ChromePhp.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/vendor/autoload.php';
@@ -107,20 +108,20 @@ class FacebookLogin {
           
         $user = $response->getGraphUser();
         
-        var_dump($user);
+        // var_dump($user);
 
         $userDB = new UserDB;
         $result = $userDB->createUserWithOAuth2IfNeededThenLogin('facebook_id', $user['id'], $user['name']);
 
-        var_dump($result);
+        // var_dump($result);
 
         $_SESSION['user_id'] = $result['user_id'];
         $_SESSION['login_state'] = $result['login_result'];
 
-        var_dump($_SESSION);
+        // var_dump($_SESSION);
 
         $path = 'http://'.$_SERVER['HTTP_HOST'].'/kakeibo_app/kakeibo_home.php';
-        var_dump($path);
+        // var_dump($path);
 
         header('Location: '.$path);
         exit();

@@ -235,14 +235,14 @@ class UserDB {
 
     public function createUserWithOAuth2IfNeededThenLogin($dbFieldName, $oauthUserId, $userName) {
 
-        var_dump($dbFieldName);
-        var_dump($oauthUserId);
-        var_dump($userName);
+        // var_dump($dbFieldName);
+        // var_dump($oauthUserId);
+        // var_dump($userName);
 
         $userDBResult = array();
 
         $userData = $this->_getUserDataByOAuth2Id($dbFieldName, $oauthUserId);
-        var_dump(empty($userData));
+        // var_dump(empty($userData));
         if (empty($userData)) {
             if ($this->_createUserWithOAuth2($dbFieldName, $oauthUserId, $userName)) {
                 $userData = $this->_getUserDataByOAuth2Id($dbFieldName, $oauthUserId);

@@ -6,6 +6,7 @@ include($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/common/ChromePhp.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/google_signin.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/facebook_login.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/twitter_login.php');
 
 session_start();
 // session_destroy()
@@ -41,6 +42,8 @@ if (!empty($_POST)) {
 
         case 'twitter_login':
             ChromePhp::log('Twitter Login!');
+            TwitterLogin::login();
+            exit();
             break;
 
         case 'line_login':
