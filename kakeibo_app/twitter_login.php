@@ -7,7 +7,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/secret/twitter_login_secret
 include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
-use \Exception;
+// use \Exception;
 
 class TwitterLogin {
 

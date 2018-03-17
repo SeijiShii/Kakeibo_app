@@ -1,5 +1,5 @@
 <?php
-// ini_set('display_errors', "On");
+ini_set('display_errors', "On");
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/vendor/autoload.php';
 include($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/common/ChromePhp.php');
@@ -7,6 +7,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/google_signin.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/facebook_login.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/twitter_login.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/line_login.php');
 
 session_start();
 // session_destroy()
@@ -48,6 +49,8 @@ if (!empty($_POST)) {
 
         case 'line_login':
             ChromePhp::log('LINE Login!');    
+            LINELogin::login();
+            exit();
             break;
 
         case 'login':
