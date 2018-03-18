@@ -11,6 +11,7 @@ if (!$_SESSION['login_state']) {
 
 $userDB = new UserDB();
 
+ChromePhp::log($_GET);
 ChromePhp::log($_POST);
 ChromePhp::log($_SESSION);
 
@@ -36,7 +37,8 @@ if ($_POST['action'] == 'logout') {
             <form class='row_height_40px login_state_row' id="login_state" action="" enctype="multipart/form-data" method="post">
                 <span class='login_state_text'><?php echo $userDB->getUserNameById($_SESSION['user_id']) ?>としてログイン中</span>
                 <button class='app_green_button logout_button' type='submit' name='action' value='logout'>ログアウト</button>
-            </form>     
+            </form>
+            <?php include('./func_tab.php') ?> 
         </div>
     </body>
 </html>
