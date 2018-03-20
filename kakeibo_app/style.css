@@ -230,31 +230,7 @@ button:active {
     color: white;
 }
 
-@media screen and (max-width : 700px) {
 
-    .content_area {
-        width: 400px;
-    }
-
-    .content_area
-    .login_input_area
-    #login_form {
-        position: relative;
-        width: 100%;
-        height: 250px;
-        clear: both;
-    }
-
-    .content_area
-    .login_input_area
-    #oauth2_login {
-        position: relative;
-        width: 100%;
-        height: 250px;
-        text-align: center;
-        clear: both;
-    }
-}
 
 .create_account_confirm_page
 #confirm_form
@@ -324,10 +300,10 @@ button:active {
 }
 
 li.func_tab {
-    width: 100%;
+    width: 95%;
     height: 50px;
-    border-bottom: white solid 2px;
     list-style-type: none;
+    margin: 0 auto;
 }
 
 li.func_tab ul {
@@ -343,8 +319,131 @@ li.func_tab ul {
     text-align: center;
 }
 
+li.func_tab ul:hover {
+    opacity: 0.7;
+}
+
+li.func_tab ul:active {
+    opacity: 0.5;
+}
+
 li.func_tab ul a {
     text-decoration: none;
     color: white;
     display: block; /* リンクをボタン状にする　サイズがautoになっているらしく親要素のulいっぱいに広がるので都合がよい */
+}
+
+.tab_content_frame {
+    width: 95%;
+    min-height: 200px;
+    border: 2px white solid;
+    margin: 0 auto;
+}
+
+.tab_content_frame
+h3 {
+    color: white;
+    font-size: 20px;
+    margin: 5px 10px;
+    border-bottom: white 2px solid;
+}
+
+.tab_content_frame
+.category_selector_form {
+    height: 50px;
+    line-height: 50px;
+}
+
+.tab_content_frame
+.category_selector_form
+span {
+    font-size: 15px;
+    color: white;
+    margin: 0 10px;
+}
+
+.tab_content_frame
+.category_selector_form
+select {
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.tab_content_frame
+.category_selector_form
+#category_add_text {
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    margin-left: 15px;
+    border: 1px gray solid;
+}
+
+.tab_content_frame
+.category_selector_form
+.category_add_button {
+    width: 100px;
+    margin-left: 15px;
+
+}
+
+.trafic_record_form {
+    width: 600px;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 auto;
+
+}
+
+.trafic_record_form
+.trafic_record_text {
+    width: 200px;
+    height: 40px;
+    background-color: white;
+    border: 1px gray solid;
+    border-radius: 10px;
+    margin-left: 15px;
+}
+
+.trafic_record_form
+.trafic_record_button {
+    width: 100px;
+    margin-left: 15px;
+}
+
+@media screen and (max-width : 700px) {
+
+    .content_area {
+        width: 400px;
+    }
+
+    .content_area
+    .login_input_area
+    #login_form {
+        position: relative;
+        width: 100%;
+        height: 250px;
+        clear: both;
+    }
+
+    .content_area
+    .login_input_area
+    #oauth2_login {
+        position: relative;
+        width: 100%;
+        height: 250px;
+        text-align: center;
+        clear: both;
+    }
+
+    li.func_tab {
+        height: 100px;
+    }
+    
+    li.func_tab ul {
+        float: left;
+        border-radius: 10px;
+        margin: 5px 3px;    
+    }
 }

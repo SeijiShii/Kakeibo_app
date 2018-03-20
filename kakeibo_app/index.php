@@ -109,7 +109,7 @@ if (!empty($_POST)) {
 <!DOCTYPE HTML>
 <html>
     <head>
-        <?php include('./header.php') ?>
+        <?php include('./components/') ?>
         <title>家計簿アプリ</title>
     </head>
     <body>

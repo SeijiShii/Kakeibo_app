@@ -27,7 +27,7 @@ if ($_POST['action'] == 'logout') {
 <!DOCTYPE HTML>
 <html>
     <head>
-        <?php include('./header.php') ?>
+        <?php include('./components/header.php') ?>
         <title>家計簿アプリ ホーム</title>
     </head>
     <body class="kakeibo_home">
@@ -38,7 +38,24 @@ if ($_POST['action'] == 'logout') {
                 <span class='login_state_text'><?php echo $userDB->getUserNameById($_SESSION['user_id']) ?>としてログイン中</span>
                 <button class='app_green_button logout_button' type='submit' name='action' value='logout'>ログアウト</button>
             </form>
-            <?php include('./func_tab.php') ?> 
+            <?php include('./components/func_tab.php') ?>
+            <div class='tab_content_frame'>
+                <?php 
+                switch ($_GET['action']) {
+                    case 'budget_status':
+                    include './tab_contents/budget_status_tab.php';
+                    break;
+
+                    case 'estimate':
+                    include './tab_contents/estimate_tab.php';
+                    break;
+
+                    case 'record_trafic':
+                    include './tab_contents/record_trafic_tab.php';
+                    break;
+                }
+                ?>
+            </div>
         </div>
     </body>
 </html>

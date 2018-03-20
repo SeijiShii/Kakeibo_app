@@ -50,7 +50,7 @@ if (!empty($_POST)) {
 <!DOCTYPE HTML>
 <html>
     <head>
-        <?php include('./header.php') ?>
+        <?php include('./components/header.php') ?>
         <title>家計簿アプリ アカウント作成</title>
     </head>
     <body class="create_account_confirm_page">
