@@ -3,7 +3,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/common/ChromePhp.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/vendor/autoload.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/secret/facebook_login_secret.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/db/user_db/user_db.php';
 
 class FacebookLogin {
     private static $fb, $helper;

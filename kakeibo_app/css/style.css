@@ -1,5 +1,13 @@
 body {
-    background-image: url(./images/kakeibo_background.png);
+    background-image: url(../images/kakeibo_background.png);
+}
+
+select {
+    height: 40px;
+    line-height: 40px;
+    text-indent: 10px;
+    border: 1px gray solid;
+    border-radius: 10px;
 }
 
 .app_ui_button {
@@ -11,6 +19,7 @@ body {
   text-align: center;
   border-radius: 10px;
   border: none;
+  margin-top: 5px;
 }
 
 .app_ui_button:hover {
@@ -30,6 +39,7 @@ body {
   text-align: center;
   border-radius: 10px;
   border: none;
+  margin-top: 5px;
 }
 
 .app_green_button:hover {
@@ -41,14 +51,15 @@ body {
 }
 
 .text_input {
-  height: 40px;
-  line-height: 40px;
+  height: 38px;
+  line-height: 38px;
   background-color: white;
   color: darkgray;
   font-size: 15px;
   border-radius: 10px;
-  text-indent: 20px;
+  text-indent: 15px;
   border: darkgray 1px solid;
+  margin-top: 5px;
 }
 
 h1.app_name_large{
@@ -56,7 +67,7 @@ h1.app_name_large{
     left: 0;
     right: 0;
     text-indent: -9999px;
-    background: url(./images/kakeibo_app_name.png) no-repeat center top;
+    background: url(../images/kakeibo_app_name.png) no-repeat center top;
     -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.3) 3px 3px 6px);
     height: 100px;
     width: 300px;
@@ -65,7 +76,7 @@ h1.app_name_large{
 
 h1.app_name_small{
     text-indent: -9999px;
-    background: url(./images/kakeibo_app_name.png) no-repeat center top;
+    background: url(../images/kakeibo_app_name.png) no-repeat center top;
     -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.3) 3px 3px 6px);
     background-size: contain;
     height: 70px;
@@ -272,9 +283,10 @@ button:active {
     float: right;
 }
 
-.row_height_40px{
+.row_height_50px{
     width: 100%;
-    height: 40px;
+    height: 50px;
+    line-height: 50px;
     position: relative;
 }
 
@@ -297,119 +309,6 @@ button:active {
     position: absolute;
     right: 20px;
     bottom: 5px;
-}
-
-li.func_tab {
-    width: 95%;
-    height: 50px;
-    list-style-type: none;
-    margin: 0 auto;
-}
-
-li.func_tab ul {
-    float: left;
-    height: 40px;
-    width: 150px;
-    border-radius: 10px 10px 0 0 / 10px 10px 0 0;
-    background-color: #ff5555;
-    padding: 0;
-    color: white;
-    margin: 9px 3px 0 3px;
-    line-height: 40px;
-    text-align: center;
-}
-
-li.func_tab ul:hover {
-    opacity: 0.7;
-}
-
-li.func_tab ul:active {
-    opacity: 0.5;
-}
-
-li.func_tab ul a {
-    text-decoration: none;
-    color: white;
-    display: block; /* リンクをボタン状にする　サイズがautoになっているらしく親要素のulいっぱいに広がるので都合がよい */
-}
-
-.tab_content_frame {
-    width: 95%;
-    min-height: 200px;
-    border: 2px white solid;
-    margin: 0 auto;
-}
-
-.tab_content_frame
-h3 {
-    color: white;
-    font-size: 20px;
-    margin: 5px 10px;
-    border-bottom: white 2px solid;
-}
-
-.tab_content_frame
-.category_selector_form {
-    height: 50px;
-    line-height: 50px;
-}
-
-.tab_content_frame
-.category_selector_form
-span {
-    font-size: 15px;
-    color: white;
-    margin: 0 10px;
-}
-
-.tab_content_frame
-.category_selector_form
-select {
-    width: 150px;
-    height: 40px;
-    border-radius: 10px;
-}
-
-.tab_content_frame
-.category_selector_form
-#category_add_text {
-    width: 150px;
-    height: 40px;
-    border-radius: 10px;
-    margin-left: 15px;
-    border: 1px gray solid;
-}
-
-.tab_content_frame
-.category_selector_form
-.category_add_button {
-    width: 100px;
-    margin-left: 15px;
-
-}
-
-.trafic_record_form {
-    width: 600px;
-    height: 50px;
-    line-height: 50px;
-    margin: 0 auto;
-
-}
-
-.trafic_record_form
-.trafic_record_text {
-    width: 200px;
-    height: 40px;
-    background-color: white;
-    border: 1px gray solid;
-    border-radius: 10px;
-    margin-left: 15px;
-}
-
-.trafic_record_form
-.trafic_record_button {
-    width: 100px;
-    margin-left: 15px;
 }
 
 @media screen and (max-width : 700px) {

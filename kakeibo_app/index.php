@@ -3,7 +3,7 @@ ini_set('display_errors', "On");
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/vendor/autoload.php';
 include($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/common/ChromePhp.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/user_db/user_db.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/db/user_db/user_db.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/google_signin.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/facebook_login.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/twitter_login.php');
@@ -109,7 +109,7 @@ if (!empty($_POST)) {
 <!DOCTYPE HTML>
 <html>
     <head>
-        <?php include('./components/') ?>
+        <?php include('./components/header.php') ?>
         <title>家計簿アプリ</title>
     </head>
     <body>

@@ -1,7 +1,7 @@
 <?php
 // ini_set('display_errors', "On");
 
-require($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/secret/db_define.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/secret/db_define.php');
 
 class UserDB {
     

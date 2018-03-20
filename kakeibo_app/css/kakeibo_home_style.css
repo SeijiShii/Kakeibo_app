@@ -1,0 +1,99 @@
+li.func_tab {
+    width: 95%;
+    height: 50px;
+    list-style-type: none;
+    margin: 0 auto;
+}
+
+li.func_tab ul {
+    float: left;
+    height: 40px;
+    width: 150px;
+    border-radius: 10px 10px 0 0 / 10px 10px 0 0;
+    background-color: #ff5555;
+    padding: 0;
+    color: white;
+    margin: 9px 3px 0 3px;
+    line-height: 40px;
+    text-align: center;
+}
+
+li.func_tab ul:hover {
+    opacity: 0.7;
+}
+
+li.func_tab ul:active {
+    opacity: 0.5;
+}
+
+li.func_tab ul a {
+    text-decoration: none;
+    color: white;
+    display: block; /* リンクをボタン状にする　サイズがautoになっているらしく親要素のulいっぱいに広がるので都合がよい */
+}
+
+.tab_content_frame {
+    width: 95%;
+    min-height: 200px;
+    border: 2px white solid;
+    margin: 0 auto;
+}
+
+.tab_content_frame
+h3 {
+    color: white;
+    font-size: 20px;
+    margin: 5px 10px;
+    border-bottom: white 2px solid;
+}
+
+.tab_content_frame
+.category_select_form {
+}
+
+.tab_content_frame
+.category_select_form
+.category_select {
+    width: 150px;
+    margin-left: 15px;
+}
+
+.tab_content_frame
+.category_select_form
+.category_add_text {
+    width: 200px;
+}
+
+.tab_content_frame
+.category_select_form
+.category_add_button {
+    width: 100px;
+    margin-left: 10px;
+
+}
+
+.trafic_record_form {
+    width: 630px;
+    margin: 0 auto;
+}
+
+.trafic_record_form
+.trafic_record_text {
+    width: 200px;
+    margin-left: 5px;
+}
+
+.trafic_record_form
+.trafic_record_date {
+    width: 70px;
+}
+
+.trafic_record_form
+.trafic_record_button {
+    width: 100px;
+    margin-left: 10px;
+}
+
+.budget_select_form {
+    margin-top: 5px;
+}
