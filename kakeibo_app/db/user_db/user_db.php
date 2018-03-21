@@ -142,10 +142,8 @@ class UserDB {
         if ($statement = $this->db->prepare($sql)) {
             $statement->bind_param('s', $userId);
             $statement->execute();
-            // ChromePhp::log('sql executed.');
             $result = $statement->get_result();
             $row = $result->fetch_array(MYSQLI_ASSOC);
-            // ChromePhp::log($row);
             $statement->close();
             return $row;
 

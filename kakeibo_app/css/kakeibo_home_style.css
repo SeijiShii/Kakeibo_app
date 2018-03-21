@@ -99,6 +99,11 @@ h3 {
 }
 
 .budget_select_form
+select {
+    /* float: left; */
+}
+
+.budget_select_form
 .create_budget_button {
     width: 150px;
 }
@@ -115,7 +120,8 @@ h3 {
 
 .budget_select_form
 span {
-    display: block;
+    /* display: block;
+    float: left; */
 }
 
 .budget_select_form

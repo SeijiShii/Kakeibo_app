@@ -1,4 +1,7 @@
 <?php
+
+// ini_set('display_errors', "On");
+
 require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/secret/db_define.php';
 
 class KakeiboDB {
@@ -28,7 +31,7 @@ class KakeiboDB {
             // ChromePhp::log($sql);
     
             if ($statement = $this->db->prepare($sql)) {
-                $budgetId = $this->_generateId('budget');
+                $budgetId = $this->_generateId($userId . '_budget');
                 $statement->bind_param('sss', $userId, $budgetName, $budgetId);
                 $statement->execute();
                 $createBudgetResult['success'] = $statement->affected_rows == 1;
@@ -52,6 +55,27 @@ class KakeiboDB {
             $statement->close();
 
             return $numRows > 0;
+        }
+    }
+
+    public function getBudgetsByUserId($userId) {
+
+        $sql = "SELECT * FROM budget_table WHERE user_id = ?;";
+       
+        if ($statement = $this->db->prepare($sql)) {
+ 
+            $statement->bind_param('s', $userId);
+            $statement->execute();
+
+            $result = $statement->get_result();
+
+            $budgets = [];
+            while ($row = $result->fetch_assoc()) {
+                array_push($budgets, $row);
+            }
+            $statement->close();
+            return $budgets;
+
         }
     }
 
