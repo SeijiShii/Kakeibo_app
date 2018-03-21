@@ -97,3 +97,28 @@ h3 {
 .budget_select_form {
     margin-top: 5px;
 }
+
+.budget_select_form
+.create_budget_button {
+    width: 150px;
+}
+
+.budget_select_form
+.budget_create_name_text {
+    width: 200px;
+}
+
+.budget_select_form
+.do_create_budget_button {
+    width: 100px;
+}
+
+.budget_select_form
+span {
+    display: block;
+}
+
+.budget_select_form
+.create_budget_cancel_button {
+    width: 100px;
+}

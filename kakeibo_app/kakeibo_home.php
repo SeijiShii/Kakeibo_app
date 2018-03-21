@@ -1,6 +1,6 @@
 <?php
 include('./common/ChromePhp.php');
-include_once('./user_db/user_db.php');
+include_once('./db/user_db/user_db.php');
 
 session_start();
 
@@ -11,7 +11,7 @@ if (!$_SESSION['login_state']) {
 
 $userDB = new UserDB();
 
-ChromePhp::log($_GET);
+// ChromePhp::log($_GET);
 ChromePhp::log($_POST);
 ChromePhp::log($_SESSION);
 
@@ -21,6 +21,22 @@ if ($_POST['action'] == 'logout') {
     $_SESSION['google_access_token'] = null;
     header('Location: ./index.php');
     exit();
+}
+
+switch ($_POST['budget_select_action']) {
+    case 'create_budget':
+    break;
+
+    case 'do_create_budget':
+        if ($_POST['budget_create_name'] == '') {
+            $select_budget_error['create_budget_name'] = 'blank';
+            $_POST['budget_select_action'] = 'create_budget';
+        }
+    break;
+
+    case 'cancel_create_budget':
+        $_POST['budget_select_action'] = null;
+    break;
 }
 
 ?>
@@ -40,18 +56,31 @@ if ($_POST['action'] == 'logout') {
                 <button class='app_green_button logout_button' type='submit' name='action' value='logout'>ログアウト</button>
             </form>
             <form class='budget_select_form' action="" enctype="multipart/form-data" method="post">
+                <?php if (false): ?>
                 <select class='budget_selctor'></select>
+                <?php endif; ?>
+                <?php if (false): ?>
                 <span>
                     <button class='app_ui_button budget_name_change_button' type="submit" name="budget_select_action" value="change_name">表示中のバジェット名を変更</button>
-                    <input type='text' class='text_input budget_name_change_text' placeholder='変更後の名前'>
+                    <?php if (false): ?>
+                    <input type='text' class='text_input budget_name_change_text' placeholder='変更後の名前' name='budget_changed_name'>
                     <button class='app_ui_button budget_name_change_button' type="submit" name="budget_select_action" value="change_name_save">変更後の名前で保存</button>
+                    <?php endif; ?>
                 </span>
+                <?php endif; ?>
                 <span>
                     <button class='app_ui_button create_budget_button' type="submit" name="budget_select_action" value="create_budget">バジェット新規作成</button>
-                    <input type='text' class='text_input budget_name_create_text' placeholder='新規バジェット名'>
+                    <?php if ($_POST['budget_select_action'] === 'create_budget'): ?>
+                    <input type='text' class='text_input budget_create_name_text' placeholder='新規バジェット名', name='budget_create_name'>
                     <button class='app_ui_button do_create_budget_button' type="submit" name="budget_select_action" value="do_create_budget">作成</button>
+                    <button class='app_green_button create_budget_cancel_button' type="submit" name="budget_select_action" value="cancel_create_budget">キャンセル</button>
+                    <?php endif; ?>
                 </span>
+                <?php if ($select_budget_error['create_budget_name'] == 'blank'): ?>
+                <p class="input_warning">新規バジェット名が空です。</p>
+                <?php endif; ?>
             </form>
+            <?php if (false): ?>
             <?php include('./components/func_tab.php') ?>
             <div class='tab_content_frame'>
                 <?php 
@@ -70,6 +99,7 @@ if ($_POST['action'] == 'logout') {
                 }
                 ?>
             </div>
+            <?php endif; ?>
         </div>
     </body>
 </html>
