@@ -34,7 +34,15 @@ $budgets = $kakeiboDB->getBudgetsByUserId($_SESSION['user_id']);
 // var_dump($budgets);
 if (count($budgets) > 0) {
     $_POST['budget_select_visible'] = true;
+    if(isset($_POST['budget_id_select'])) {
+        foreach($budgets as $budget) {
+            if ($budget['budget_id'] == $_POST['budget_id_select']) {
+                $_POST['budget_select'] = $budget;
+            }
+        }
+    }
 }
+var_dump($_POST['budget_select']);
 
 switch ($_POST['budget_select_action']) {
     case 'create_budget':
@@ -54,7 +62,7 @@ switch ($_POST['budget_select_action']) {
                     if ($createBudgetResult['success']) {
                         // errorがなく、successの場合
                         $budgets = $kakeiboDB->getBudgetsByUserId($_SESSION['user_id']);
-                        // var_dump($budgets);
+                        $_POST['budget_select'] = $_POST['budget_create_name'];
                         if (count($budgets) > 0) {
                             $_POST['budget_select_visible'] = true;
                         }
@@ -87,13 +95,17 @@ switch ($_POST['budget_select_action']) {
                 <span class='login_state_text'><?php echo $_SESSION['user_name'] ?>としてログイン中</span>
                 <button class='app_green_button logout_button' type='submit' name='action' value='logout'>ログアウト</button>
             </form>
-            <form class='budget_select_form' action="" enctype="multipart/form-data" method="post">
+            <form class='budget_select_form' action="" enctype="multipart/form-data" method="post" name='budget_select_form'>
                 <?php
                 if (count($budgets) > 0) {
-                    echo "<select name='budget_select'>";
+                    echo "<select name='budget_id_select' id='budget_id_select' onChange='onChangeBudgetSelect()'>";
                     foreach($budgets as $budget) {
                         // var_dump($budget);
-                        echo '<option value=' . $budget['budget_id'] . ' >' . $budget['budget_name'] . '</option>';
+                        $isSelected = '';
+                        if ($budget['budget_id'] == $_POST['budget_select']['budget_id']) {
+                            $isSelected = " selected='selected' ";
+                        }
+                        echo '<option value=' . $budget['budget_id'] . $isSelected . ' >' . $budget['budget_name'] . '</option>';
                     }
                     echo "</select>";
                 }
@@ -125,7 +137,7 @@ switch ($_POST['budget_select_action']) {
                 <p class="input_warning"><?php echo $_SESSION['user_name'] ?>はすでに <?php echo $_POST['budget_create_name'] ?>というバジェットを持っています。</p>
                 <?php endif; ?>
             </form>
-            <?php if (false): ?>
+            <?php if (isset($_POST['budget_select'])): ?>
             <?php include('./components/func_tab.php') ?>
             <div class='tab_content_frame'>
                 <?php 
@@ -146,5 +158,6 @@ switch ($_POST['budget_select_action']) {
             </div>
             <?php endif; ?>
         </div>
+        <script type='text/javascript' src='./kakeibo_home.js'></script>
     </body>
 </html>
