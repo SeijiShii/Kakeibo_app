@@ -6,6 +6,24 @@ include './common/ChromePhp.php';
 include_once './db/user_db/user_db.php';
 include_once './db/kakeibo_db/kakeibo_db.php';
 
+function setBudgetSelect($budgets) {
+    if (count($budgets) > 0) {
+        $_POST['budget_select_visible'] = true;
+        if (count($budgets) == 1) {
+            $_SESSION['budget_select'] = $budgets[0];
+        } else {
+            if(isset($_POST['budget_id_select'])) {
+                foreach($budgets as $budget) {
+                    if ($budget['budget_id'] == $_POST['budget_id_select']) {
+                        $_SESSION['budget_select'] = $budget;
+                    }
+                }
+            }
+        }
+    }
+    // var_dump($_SESSION['budget_select']);
+}
+
 session_start();
 
 if (!$_SESSION['login_state']) {
@@ -14,14 +32,12 @@ if (!$_SESSION['login_state']) {
 }
 
 // ChromePhp::log($_GET);
-ChromePhp::log($_POST);
 ChromePhp::log($_SESSION);
 
 if ($_POST['action'] == 'logout') {
-    $_SESSION['login_state'] = false;
-    $_SESSION['user_id'] = null;
-    $_SESSION['google_access_token'] = null;
-    $_SESSION['user_name'] = null;
+
+    session_destroy();
+
     header('Location: ./index.php');
     exit();
 }
@@ -32,17 +48,8 @@ $kakeiboDB = new KakeiboDB();
 $_SESSION['user_name'] = $userDB->getUserNameById($_SESSION['user_id']);
 $budgets = $kakeiboDB->getBudgetsByUserId($_SESSION['user_id']);
 // var_dump($budgets);
-if (count($budgets) > 0) {
-    $_POST['budget_select_visible'] = true;
-    if(isset($_POST['budget_id_select'])) {
-        foreach($budgets as $budget) {
-            if ($budget['budget_id'] == $_POST['budget_id_select']) {
-                $_POST['budget_select'] = $budget;
-            }
-        }
-    }
-}
-var_dump($_POST['budget_select']);
+setBudgetSelect($budgets);
+
 
 switch ($_POST['budget_select_action']) {
     case 'create_budget':
@@ -62,10 +69,9 @@ switch ($_POST['budget_select_action']) {
                     if ($createBudgetResult['success']) {
                         // errorがなく、successの場合
                         $budgets = $kakeiboDB->getBudgetsByUserId($_SESSION['user_id']);
-                        $_POST['budget_select'] = $_POST['budget_create_name'];
-                        if (count($budgets) > 0) {
-                            $_POST['budget_select_visible'] = true;
-                        }
+                        $_POST['budget_id_select'] = $createBudgetResult['create_budget_id'];
+                        setBudgetSelect($budgets);
+
                     } else {
 
                     }
@@ -78,6 +84,8 @@ switch ($_POST['budget_select_action']) {
         $_POST['budget_select_action'] = null;
     break;
 }
+
+ChromePhp::log($_POST);
 
 ?>
 <!DOCTYPE HTML>
@@ -100,9 +108,8 @@ switch ($_POST['budget_select_action']) {
                 if (count($budgets) > 0) {
                     echo "<select name='budget_id_select' id='budget_id_select' onChange='onChangeBudgetSelect()'>";
                     foreach($budgets as $budget) {
-                        // var_dump($budget);
                         $isSelected = '';
-                        if ($budget['budget_id'] == $_POST['budget_select']['budget_id']) {
+                        if ($budget['budget_id'] == $_SESSION['budget_select']['budget_id']) {
                             $isSelected = " selected='selected' ";
                         }
                         echo '<option value=' . $budget['budget_id'] . $isSelected . ' >' . $budget['budget_name'] . '</option>';
@@ -137,14 +144,11 @@ switch ($_POST['budget_select_action']) {
                 <p class="input_warning"><?php echo $_SESSION['user_name'] ?>はすでに <?php echo $_POST['budget_create_name'] ?>というバジェットを持っています。</p>
                 <?php endif; ?>
             </form>
-            <?php if (isset($_POST['budget_select'])): ?>
+            <?php if (isset($_SESSION['budget_select'])): ?>
             <?php include('./components/func_tab.php') ?>
             <div class='tab_content_frame'>
                 <?php 
                 switch ($_GET['action']) {
-                    case 'budget_status':
-                    include './tab_contents/budget_status_tab.php';
-                    break;
 
                     case 'estimate':
                     include './tab_contents/estimate_tab.php';
@@ -152,6 +156,11 @@ switch ($_POST['budget_select_action']) {
 
                     case 'record_trafic':
                     include './tab_contents/record_trafic_tab.php';
+                    break;
+
+                    default:
+                    case 'budget_status':
+                    include './tab_contents/budget_status_tab.php';
                     break;
                 }
                 ?>

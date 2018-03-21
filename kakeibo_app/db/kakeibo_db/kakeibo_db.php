@@ -35,6 +35,9 @@ class KakeiboDB {
                 $statement->bind_param('sss', $userId, $budgetName, $budgetId);
                 $statement->execute();
                 $createBudgetResult['success'] = $statement->affected_rows == 1;
+                if ($createBudgetResult['success']) {
+                    $createBudgetResult['create_budget_id'] = $budgetId;
+                }
                 $statement->close();    
             }
         }
