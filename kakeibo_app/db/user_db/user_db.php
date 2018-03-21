@@ -165,58 +165,6 @@ class UserDB {
     }
 
     // OAuth2 login in methods
-    // private function _createUserWithGoogle($googleUser) {
-    //     $sql = 'INSERT INTO user_table(user_id, user_name, google_id) VALUES(?, ?, ?);';
-    //     if ($statement = $this->db->prepare($sql)) {
-    //         $userId = $this->_generateUserId();
-    //         $statement->bind_param('sss', $userId, $googleUser->name, $googleUser->id);
-    //         $statement->execute();
-    //         $success = $statement->affected_rows == 1;
-    //         $statement->close();
-
-    //         return $success;
-    //     }
-    // }
-
-    // public function createUserWithGoogleIfNeededThenLogin($googleUser) {
-
-    //     $userDBResult = array();
-
-    //     $userData = $this->_getUserDataByOAuth2Id($googleUser->id);
-    //     var_dump(empty($userData));
-    //     if (empty($userData)) {
-    //         if ($this->_createUserWithGoogle($googleUser)) {
-    //             $userData = $this->_getUserDataByOAuth2Id($googleUser->id);
-    //         } else {
-    //             ChromePhp::log('Error in createUserWithGoogleIfNeededThenLogin');
-    //         }
-    //     } 
-
-    //     $userDBResult['login_result'] = true;
-    //     $userDBResult['user_name'] = $userData['user_name'];
-    //     $userDBResult['user_id'] = $userData['user_id'];
-
-    //     return $userDBResult;
-    // }
-
-    // private function _getUserDataByOAuth2Id($googleId) {
-
-    //     $sql = 'SELECT * FROM user_table WHERE google_id = ?';
-    //     if ($statement = $this->db->prepare($sql)) {
-    //         $statement->bind_param('s', $googleId);
-    //         $statement->execute();
-    //         // ChromePhp::log('sql executed.');
-    //         $result = $statement->get_result();
-    //         $row = $result->fetch_array(MYSQLI_ASSOC);
-    //         // ChromePhp::log($row);
-    //         $statement->close();
-    //         return $row;
-
-    //     } else {
-    //         ChromePhp::log('Error in getUserDataByGoogleId');
-    //     }
-    // }
-
     private function _createUserWithOAuth2($dbFieldName, $oauthUserId, $userName) {
         $sql = 'INSERT INTO user_table(user_id, user_name, '.$dbFieldName.') VALUES(?, ?, ?);';
         

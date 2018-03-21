@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/kakeibo_app/secret/db_define.php';
 
-class BudgetDB {
+class KakeiboDB {
 
     private $db;
 
@@ -17,7 +17,26 @@ class BudgetDB {
     }
 
     public function createBudget($userId, $budgetName) {
+        $sql = 'INSERT INTO budget_table(user_id, budget_name, budget_id) VALUES(?, ?, ?);';
+        
+        ChromePhp::log($sql);
 
+        if ($statement = $this->db->prepare($sql)) {
+            $budgetId = $this->_generateId('budget');
+            $statement->bind_param('sss', $userId, $budgetName, $budgetId);
+            $statement->execute();
+            $success = $statement->affected_rows == 1;
+            $statement->close();
+
+            return $success;
+        }
+    }
+
+    private function _generateId($idHeader) {
+        $dateTime = date('YmdHis');
+        $id = $idHeader . '_' . $dateTime . sprintf('%04d', mt_rand(1, 1000)); 
+        // ChromePhp::log($id);
+        return $id;
     }
 }
 

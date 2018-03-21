@@ -1,6 +1,10 @@
 <?php
-include('./common/ChromePhp.php');
-include_once('./db/user_db/user_db.php');
+
+// ini_set('display_errors', "On");
+
+include './common/ChromePhp.php';
+include_once './db/user_db/user_db.php';
+include_once './db/kakeibo_db/kakeibo_db.php';
 
 session_start();
 
@@ -10,6 +14,7 @@ if (!$_SESSION['login_state']) {
 }
 
 $userDB = new UserDB();
+$kakeiboDB = new KakeiboDB();
 
 // ChromePhp::log($_GET);
 ChromePhp::log($_POST);
@@ -31,6 +36,8 @@ switch ($_POST['budget_select_action']) {
         if ($_POST['budget_create_name'] == '') {
             $select_budget_error['create_budget_name'] = 'blank';
             $_POST['budget_select_action'] = 'create_budget';
+        } else {
+            $kakeiboDB->createBudget($_SESSION['user_id'], $_POST['budget_create_name']);
         }
     break;
 
