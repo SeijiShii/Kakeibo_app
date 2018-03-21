@@ -20,10 +20,13 @@ $kakeiboDB = new KakeiboDB();
 ChromePhp::log($_POST);
 ChromePhp::log($_SESSION);
 
+$_SESSION['user_name'] = $userDB->getUserNameById($_SESSION['user_id']);
+
 if ($_POST['action'] == 'logout') {
     $_SESSION['login_state'] = false;
     $_SESSION['user_id'] = null;
     $_SESSION['google_access_token'] = null;
+    $_SESSION['user_name'] = null;
     header('Location: ./index.php');
     exit();
 }
@@ -37,7 +40,19 @@ switch ($_POST['budget_select_action']) {
             $select_budget_error['create_budget_name'] = 'blank';
             $_POST['budget_select_action'] = 'create_budget';
         } else {
-            $kakeiboDB->createBudget($_SESSION['user_id'], $_POST['budget_create_name']);
+            $createBudgetResult = $kakeiboDB->createBudget($_SESSION['user_id'], $_POST['budget_create_name']);
+            if (isset($createBudgetResult['error']) && $createBudgetResult['error'] == 'duplicated_budget_name') {
+                $select_budget_error['create_budget_name'] = 'duplicated_budget_name';
+                $_POST['budget_select_action'] = 'create_budget';
+            } else {
+                if (isset($createBudgetResult['success'])) {
+                    if ($createBudgetResult['success']) {
+                        // errorがなく、successの場合
+                    } else {
+
+                    }
+                }
+            }
         }
     break;
 
@@ -59,7 +74,7 @@ switch ($_POST['budget_select_action']) {
             <h1 class="app_name_small">家計簿アプリ</h1>
             <h2>家計簿ホーム</h2> 
             <form class='row_height_50px login_state_row' id="login_state" action="" enctype="multipart/form-data" method="post">
-                <span class='login_state_text'><?php echo $userDB->getUserNameById($_SESSION['user_id']) ?>としてログイン中</span>
+                <span class='login_state_text'><?php echo $_SESSION['user_name'] ?>としてログイン中</span>
                 <button class='app_green_button logout_button' type='submit' name='action' value='logout'>ログアウト</button>
             </form>
             <form class='budget_select_form' action="" enctype="multipart/form-data" method="post">
@@ -78,13 +93,18 @@ switch ($_POST['budget_select_action']) {
                 <span>
                     <button class='app_ui_button create_budget_button' type="submit" name="budget_select_action" value="create_budget">バジェット新規作成</button>
                     <?php if ($_POST['budget_select_action'] === 'create_budget'): ?>
-                    <input type='text' class='text_input budget_create_name_text' placeholder='新規バジェット名', name='budget_create_name'>
+                    <input type='text' class='text_input budget_create_name_text' placeholder='新規バジェット名', name='budget_create_name' value='<?php if ($select_budget_error['create_budget_name']){
+                        echo htmlspecialchars($_POST['budget_create_name'], ENT_QUOTES, 'utf-8');
+                    }?>'>
                     <button class='app_ui_button do_create_budget_button' type="submit" name="budget_select_action" value="do_create_budget">作成</button>
                     <button class='app_green_button create_budget_cancel_button' type="submit" name="budget_select_action" value="cancel_create_budget">キャンセル</button>
                     <?php endif; ?>
                 </span>
                 <?php if ($select_budget_error['create_budget_name'] == 'blank'): ?>
                 <p class="input_warning">新規バジェット名が空です。</p>
+                <?php endif; ?>
+                <?php if ($select_budget_error['create_budget_name'] == 'duplicated_budget_name'): ?>
+                <p class="input_warning"><?php echo $_SESSION['user_name'] ?>はすでに <?php echo $select_budget_error['create_budget_name'] ?>というバジェットを持っています。</p>
                 <?php endif; ?>
             </form>
             <?php if (false): ?>

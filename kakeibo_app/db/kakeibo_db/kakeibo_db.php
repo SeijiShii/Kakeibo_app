@@ -17,18 +17,41 @@ class KakeiboDB {
     }
 
     public function createBudget($userId, $budgetName) {
-        $sql = 'INSERT INTO budget_table(user_id, budget_name, budget_id) VALUES(?, ?, ?);';
-        
-        ChromePhp::log($sql);
 
+        $createBudgetResult = array();
+        if ($this->_checkBudgetNameExists($userId, $budgetName)) {
+            $createBudgetResult['error'] = 'duplicated_budget_name';
+            $createBudgetResult['success'] = false;
+        } else {
+            $sql = 'INSERT INTO budget_table(user_id, budget_name, budget_id) VALUES(?, ?, ?);';
+        
+            // ChromePhp::log($sql);
+    
+            if ($statement = $this->db->prepare($sql)) {
+                $budgetId = $this->_generateId('budget');
+                $statement->bind_param('sss', $userId, $budgetName, $budgetId);
+                $statement->execute();
+                $createBudgetResult['success'] = $statement->affected_rows == 1;
+                $statement->close();    
+            }
+        }
+        return $createBudgetResult;
+    }
+
+    private function _checkBudgetNameExists($userId, $budgetName) {
+
+        $sql = "SELECT budget_name FROM budget_table WHERE user_id = ? AND budget_name = ?;";
+       
         if ($statement = $this->db->prepare($sql)) {
-            $budgetId = $this->_generateId('budget');
-            $statement->bind_param('sss', $userId, $budgetName, $budgetId);
+ 
+            $statement->bind_param('ss', $userId, $budgetName);
             $statement->execute();
-            $success = $statement->affected_rows == 1;
+            $statement->store_result();
+            $numRows = $statement->num_rows();
+            $statement->free_result();
             $statement->close();
 
-            return $success;
+            return $numRows > 0;
         }
     }
 
